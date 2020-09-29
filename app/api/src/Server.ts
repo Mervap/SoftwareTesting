@@ -56,6 +56,7 @@ app.set('views', viewsDir);
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 app.get('*', (req: Request, res: Response) => {
+    res.set('Access-Control-Allow-Origin', '*')
     res.sendFile('index.html', {root: viewsDir});
 });
 

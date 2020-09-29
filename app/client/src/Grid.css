@@ -1,0 +1,22 @@
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50pt auto;
+    border: 2pt solid darkgray;
+}
+
+.cell {
+    border: 1pt solid #f3e7af;
+    box-sizing: border-box;
+    margin: 1pt;
+}
+
+.aliveCell {
+    background: green;
+    opacity: 0.75;
+}
+
+.deadCell {
+    background: gray;
+    opacity: 0.25;
+}

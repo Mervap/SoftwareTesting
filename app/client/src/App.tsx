@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import Grid from './Grid'
+import Settings from './Settings'
+import SeededRandomUtilities from "seeded-random-utilities";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    columns: 40,
+    rows: 20,
+    seed: new SeededRandomUtilities().getRandomIntegar(1e18)
+  }
+
+  onSettingsChange = (newRows: number, newColumns: number, newSeed: number) => {
+    return this.setState({rows: newRows, columns: newColumns, seed: newSeed});
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Grid
+          columns={this.state.columns}
+          rows={this.state.rows}
+          seed={this.state.seed}
+        />
+        <Settings
+          columns={this.state.columns}
+          rows={this.state.rows}
+          seed={this.state.seed}
+          onSettingsChange={this.onSettingsChange}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;

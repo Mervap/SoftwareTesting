@@ -1,0 +1,42 @@
+:root {
+    --font-small-size: 0.8rem;
+}
+
+.settings {
+    width: 30rem;
+    margin: 2rem auto;
+}
+
+.field .name {
+    grid-area: name;
+    justify-self: end;
+    padding: 1.5rem 1rem 0 0;
+}
+
+.field .value {
+    grid-area: value;
+    padding: 1.5rem 3.5rem 0 0;
+}
+
+.field .value input {
+    width: 100%;
+}
+
+.field .error {
+    grid-area: error;
+    font-size: var(--font-small-size);
+    color: red;
+}
+
+.field {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-areas: "name value" ". error";
+    align-items: center;
+}
+
+.button-field {
+    text-align: center;
+    margin: 2rem 0.5rem 0 0.5rem;
+    padding: 0 1.5rem;
+}
