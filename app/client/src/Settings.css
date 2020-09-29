@@ -10,12 +10,12 @@
 .field .name {
     grid-area: name;
     justify-self: end;
-    padding: 1.5rem 1rem 0 0;
+    padding: 0.8rem 1rem 0 0;
 }
 
 .field .value {
     grid-area: value;
-    padding: 1.5rem 3.5rem 0 0;
+    padding: 0.8rem 3.5rem 0 0;
 }
 
 .field .value input {
@@ -35,8 +35,8 @@
     align-items: center;
 }
 
-.button-field {
+.settingsButton {
     text-align: center;
-    margin: 2rem 0.5rem 0 0.5rem;
-    padding: 0 1.5rem;
+    margin: 1rem 0.5rem 0 5.5rem;
+    padding: 0 1.6rem;
 }
