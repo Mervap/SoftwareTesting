@@ -1,0 +1,71 @@
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  color: #353535;
+  font-family: 'Roboto', sans-serif;
+}
+
+.App {
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.game {
+  text-align: center;
+  width: 100%;
+}
+
+.App .pro-sidebar .pro-menu .pro-menu-item .pro-inner-item .pro-icon-wrapper {
+  width: 45px;
+  height: 45px;
+}
+
+.App .pro-sidebar .pro-menu .pro-menu-item .pro-inner-item .pro-icon-wrapper .pro-icon {
+  font-size: 23px;
+}
+
+.App .pro-sidebar .pro-menu .pro-menu-item .pro-inner-item  {
+  font-size: 20px
+}
+
+.sidebar-btn-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-btn-wrapper .sidebar-btn {
+  padding: 1px 15px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #adadad;
+  text-decoration: none;
+  margin: 0 auto;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sidebar-btn-wrapper .sidebar-btn svg {
+  font-size: 21px;
+}
+
+.sidebar-btn-wrapper .sidebar-btn span {
+  margin-left: 7px;
+  font-size: 17px;
+}
+
+.sidebar-btn-wrapper .sidebar-btn:hover {
+  color: #d8d8d8;
+}

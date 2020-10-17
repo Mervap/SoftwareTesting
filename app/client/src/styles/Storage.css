@@ -1,0 +1,9 @@
+.storage {
+  font-size: 7rem;
+  opacity: 0.3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}

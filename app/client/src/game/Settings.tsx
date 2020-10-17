@@ -1,6 +1,6 @@
 import React, {ChangeEvent, Component} from 'react';
 
-import './Settings.css';
+import '../styles/Settings.css';
 
 interface SettingsProps {
   columns: number
@@ -14,25 +14,55 @@ class Settings extends Component<SettingsProps> {
   state = {
     columns: String(this.props.columns),
     rows: String(this.props.rows),
-    seed: String(this.props.seed)
+    seed: String(this.props.seed),
+    errMsg: String("")
   }
 
-  onColumnsChange = (event: ChangeEvent<HTMLInputElement>) => {
+  private static checkIntegerWithBounds(str: string, left: number, right: number, a: string): string {
+    if (str === "") {
+      return "Please, put in a " + a
+    }
+    const num = Number(str)
+    if (isNaN(num) || !Number.isInteger(num) || num < left || num > right) {
+      return a + " should be a integer number no less than " + left + " and not greate than " + right
+    }
+    return ""
+  }
+
+  private validateSettings(rows: string, columns: string, seed: string) {
+    let errMsg = Settings.checkIntegerWithBounds(columns, 1, 65, "Column numbers");
+    if (errMsg !== "") {
+      this.state.errMsg = errMsg
+      return
+    }
+    errMsg = Settings.checkIntegerWithBounds(rows, 1, 30, "Row numbers")
+    if (errMsg !== "") {
+      this.state.errMsg = errMsg
+      return
+    }
+    errMsg = Settings.checkIntegerWithBounds(seed, 1, 1e31, "Seed")
+    this.state.errMsg = errMsg
+  }
+
+  private onColumnsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newColumns = event.target.value
     this.setState({columns: newColumns})
+    this.validateSettings(newColumns, this.state.rows, this.state.seed)
   }
 
-  onRowsChange = (event: ChangeEvent<HTMLInputElement>) => {
+  private onRowsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newRows = event.target.value
     this.setState({rows: newRows})
+    this.validateSettings(this.state.columns, newRows, this.state.seed)
   }
 
-  onSeedChange = (event: ChangeEvent<HTMLInputElement>) => {
+  private onSeedChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newSeed = event.target.value
     this.setState({seed: newSeed})
+    this.validateSettings(this.state.columns, this.state.rows, newSeed)
   }
 
-  changeSettings = () => {
+  private changeSettings = () => {
     this.props.onSettingsChange(parseInt(this.state.rows), parseInt(this.state.columns), parseInt(this.state.seed))
   }
 
@@ -78,9 +108,13 @@ class Settings extends Component<SettingsProps> {
               onChange={this.onSeedChange}
             />
           </div>
-          <div className="error"></div>
+          <div className="error">{this.state.errMsg}</div>
         </div>
-        <button className="settingsButton" onClick={this.changeSettings}>Apply</button>
+        <button className="settingsButton"
+                disabled={this.state.errMsg !== ""}
+                onClick={this.changeSettings}>
+          Apply
+        </button>
       </div>
     );
   }

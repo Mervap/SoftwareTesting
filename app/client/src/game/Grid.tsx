@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './Grid.css';
+import '../styles/Grid.css';
 import Cell from './Cell';
 import SeededRandomUtilities from 'seeded-random-utilities';
 

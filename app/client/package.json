@@ -10,8 +10,12 @@
     "@types/node": "^12.12.62",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
+    "@types/react-icons": "^3.0.0",
+    "@types/react-router-dom": "^5.1.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-pro-sidebar": "^0.4.4",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "seeded-random-utilities": "^1.1.4",
     "typescript": "^3.7.5"
