@@ -6,7 +6,7 @@ interface SettingsProps {
   columns: number
   rows: number
   seed: number
-  onSettingsChange: (newRows: number, newColumns: number, newSeed: number) => void
+  onSettingsChange(newRows: number, newColumns: number, newSeed: number): void
 }
 
 class Settings extends Component<SettingsProps> {
@@ -29,7 +29,7 @@ class Settings extends Component<SettingsProps> {
     return ""
   }
 
-  private validateSettings(rows: string, columns: string, seed: string) {
+  private validateSettings(columns: string, rows: string, seed: string) {
     let errMsg = Settings.checkIntegerWithBounds(columns, 1, 65, "Column numbers");
     if (errMsg !== "") {
       this.state.errMsg = errMsg

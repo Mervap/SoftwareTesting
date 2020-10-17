@@ -1,0 +1,10 @@
+.game {
+  text-align: center;
+  width: 100%;
+}
+
+.all_settings {
+  justify-content: center;
+  display: flex;
+  /*flex-wrap: wrap;*/
+}

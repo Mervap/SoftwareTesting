@@ -3,8 +3,9 @@
 }
 
 .settings {
-    width: 30rem;
-    margin: 2rem auto;
+    /*width: 30rem;*/
+    margin: 2rem 1rem 2rem 1rem;
+    width: 50%;
 }
 
 .field .name {
@@ -14,12 +15,14 @@
 }
 
 .field .value {
+    width: 20rem;
     grid-area: value;
     padding: 0.8rem 3.5rem 0 0;
 }
 
 .field .value input {
     width: 100%;
+    font-size: 15px;
 }
 
 .field .error {
@@ -29,14 +32,12 @@
 }
 
 .field {
-    display: grid;
-    grid-template-columns: 40% 60%;
-    grid-template-areas: "name value" ". error";
-    align-items: center;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .settingsButton {
-    text-align: center;
-    margin: 1rem 0.5rem 0 5.5rem;
+    float: right;
+    margin: 1rem 11rem 0 5.5rem;
     padding: 0 1.6rem;
 }
