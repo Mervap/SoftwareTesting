@@ -31,16 +31,16 @@ class FieldWithButtons extends Component<FieldWithButtonsProps> {
   private applyDiff(increase: boolean): void {
     const realDiff = increase ? this.props.diff : -this.props.diff
     const newValue = Number(this.state.value) + realDiff
-    if (this.props.minValue <= newValue && newValue <= this.props.maxValue) {
-      this.setState({value: String(newValue)})
-      this.props.onValueChange(String(newValue))
-    } else if (newValue < this.props.minValue) {
-      this.setState({value: String(this.props.minValue)})
-      this.props.onValueChange(String(this.props.minValue))
+    let val: string;
+    if (newValue < this.props.minValue) {
+      val = String(this.props.minValue);
     } else if (this.props.maxValue < newValue) {
-      this.setState({value: String(this.props.maxValue)})
-      this.props.onValueChange(String(this.props.maxValue))
+      val = String(this.props.maxValue);
+    } else {
+      val = String(newValue);
     }
+    this.setState({value: val})
+    this.props.onValueChange(val)
   }
 
   render() {
@@ -132,7 +132,7 @@ class GameControl extends Component<GameControlProps> {
           baseNum={Number(this.state.minForAlive)}
           diff={1}
           minValue={0}
-          maxValue={8}
+          maxValue={Math.min(8, Number(this.state.maxForAlive))}
           disabled={this.state.isRun}
           onValueChange={(value) => {
             this.onGameControlChange(this.state.delay, this.state.cntForBirth, value,
@@ -144,7 +144,7 @@ class GameControl extends Component<GameControlProps> {
           labelText={"Max for alive"}
           baseNum={Number(this.state.maxForAlive)}
           diff={1}
-          minValue={1}
+          minValue={Math.max(1, Number(this.state.minForAlive))}
           maxValue={9}
           disabled={this.state.isRun}
           onValueChange={(value) => {
