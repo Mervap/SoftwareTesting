@@ -9,14 +9,12 @@
 }
 
 .field .name {
-    grid-area: name;
     justify-self: end;
     padding: 0.8rem 1rem 0 0;
 }
 
 .field .value {
     width: 20rem;
-    grid-area: value;
     padding: 0.8rem 3.5rem 0 0;
 }
 
@@ -25,8 +23,9 @@
     font-size: 15px;
 }
 
-.field .error {
-    grid-area: error;
+.error {
+    width: 100%;
+    text-align: right;
     font-size: var(--font-small-size);
     color: red;
 }

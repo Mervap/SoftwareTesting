@@ -40,7 +40,7 @@ class Settings extends Component<SettingsProps> {
       this.state.errMsg = errMsg
       return
     }
-    errMsg = Settings.checkIntegerWithBounds(seed, 1, 1e31, "Seed")
+    errMsg = Settings.checkIntegerWithBounds(seed, 0, 1e31, "Seed")
     this.state.errMsg = errMsg
   }
 
@@ -108,8 +108,8 @@ class Settings extends Component<SettingsProps> {
               onChange={this.onSeedChange}
             />
           </div>
-          <div className="error">{this.state.errMsg}</div>
         </div>
+        <div className="error">{this.state.errMsg}</div>
         <button className="settingsButton"
                 disabled={this.state.errMsg !== ""}
                 onClick={this.changeSettings}>
