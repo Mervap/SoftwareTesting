@@ -80,7 +80,7 @@ interface GameControlProps {
   minForAlive: number
   maxForAlive: number
 
-  onGameControlChange(speed: number, cntForBirth: number, minForAlive: number, maxForAlive: number, isRun: boolean): void
+  onGameControlChange(delay: number, cntForBirth: number, minForAlive: number, maxForAlive: number, isRun: boolean): void
 }
 
 class GameControl extends Component<GameControlProps> {
@@ -93,15 +93,15 @@ class GameControl extends Component<GameControlProps> {
     maxForAlive: String(this.props.maxForAlive)
   }
 
-  private onGameControlChange = (speed: string, cntForBirth: string, minForAlive: string, maxForAlive: string, isRun: boolean) => {
+  private onGameControlChange = (delay: string, cntForBirth: string, minForAlive: string, maxForAlive: string, isRun: boolean) => {
     this.setState({
-      delay: speed,
+      delay: delay,
       cntForBirth: cntForBirth,
       minForAlive: minForAlive,
       maxForAlive: maxForAlive,
       isRun: isRun
     })
-    this.props.onGameControlChange(Number(speed), Number(cntForBirth), Number(minForAlive), Number(maxForAlive), isRun)
+    this.props.onGameControlChange(Number(delay), Number(cntForBirth), Number(minForAlive), Number(maxForAlive), isRun)
   }
 
   private onRunChange = () => {
@@ -132,7 +132,7 @@ class GameControl extends Component<GameControlProps> {
           baseNum={Number(this.state.minForAlive)}
           diff={1}
           minValue={0}
-          maxValue={Math.min(8, Number(this.state.maxForAlive))}
+          maxValue={Number(this.state.maxForAlive)}
           disabled={this.state.isRun}
           onValueChange={(value) => {
             this.onGameControlChange(this.state.delay, this.state.cntForBirth, value,
@@ -144,8 +144,8 @@ class GameControl extends Component<GameControlProps> {
           labelText={"Max for alive"}
           baseNum={Number(this.state.maxForAlive)}
           diff={1}
-          minValue={Math.max(1, Number(this.state.minForAlive))}
-          maxValue={9}
+          minValue={Number(this.state.minForAlive)}
+          maxValue={8}
           disabled={this.state.isRun}
           onValueChange={(value) => {
             this.onGameControlChange(this.state.delay, this.state.cntForBirth, this.state.minForAlive,

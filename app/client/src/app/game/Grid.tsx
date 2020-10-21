@@ -23,6 +23,7 @@ class Grid extends Component<GridProps> {
         let isAlive = rand.getRandom() > 0.75
         rows.push(
           <Cell
+            key={i * this.props.columns + j}
             isAlive={isAlive}
             height={20}
             width={20}

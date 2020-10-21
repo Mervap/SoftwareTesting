@@ -25,9 +25,9 @@ class Game extends Component {
     this.setState({rows: newRows, columns: newColumns, seed: newSeed});
   }
 
-  onGameControlChange = (speed: number, cntForBirth: number, minForAlive: number, maxForAlive: number, isRun: boolean) => {
+  onGameControlChange = (delay: number, cntForBirth: number, minForAlive: number, maxForAlive: number, isRun: boolean) => {
     this.setState({
-      speed: speed,
+      delay: delay,
       isRun: isRun,
       cntForBirth: cntForBirth,
       minForAlive: minForAlive,
@@ -38,12 +38,12 @@ class Game extends Component {
       let timerId = setInterval(() => {
         console.log("Kek")
         this.setState({iteration: this.state.iteration + 1})
-      }, speed)
+      }, delay)
       this.setState({timerId: timerId})
     } else {
       clearInterval(this.state.timerId)
     }
-    console.log(String(speed) + " " + String(cntForBirth) + " " + String(minForAlive) + " " + String(maxForAlive) + " " + String(isRun))
+    console.log(String(delay) + " " + String(cntForBirth) + " " + String(minForAlive) + " " + String(maxForAlive) + " " + String(isRun))
   }
 
   render() {

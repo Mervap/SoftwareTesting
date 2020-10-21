@@ -24,7 +24,7 @@ class Settings extends Component<SettingsProps> {
     }
     const num = Number(str)
     if (isNaN(num) || !Number.isInteger(num) || num < left || num > right) {
-      return a + " should be a integer number no less than " + left + " and not greate than " + right
+      return a + " should be a integer number no less than " + left + " and not greater than " + right
     }
     return ""
   }
