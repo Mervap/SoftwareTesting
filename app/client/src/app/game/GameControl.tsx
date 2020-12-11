@@ -1,8 +1,9 @@
 import React, {ChangeEvent, Component} from 'react';
+import TextField from "material-ui/TextField";
+import IconButton from "material-ui/IconButton";
+import {Remove, Add, Pause, PlayArrow} from '@material-ui/icons'
 
 import '../styles/GameControl.css';
-import {BiPlus, BiMinus} from 'react-icons/bi'
-import {BsPlay, BsPause} from 'react-icons/bs'
 
 interface FieldWithButtonsProps {
   className: string
@@ -49,25 +50,26 @@ class FieldWithButtons extends Component<FieldWithButtonsProps> {
         <div className="updatableFieldName">
           <label htmlFor={this.props.className}>{this.props.labelText}</label>
         </div>
-        <button disabled={this.props.disabled}
-                className="updateButton"
-                onClick={() => this.applyDiff(false)}>
-          <BiMinus/>
-        </button>
+        <IconButton disabled={this.props.disabled}
+                    className="updateButton"
+                    onClick={() => this.applyDiff(false)}>
+          <Remove/>
+        </IconButton>
         <div className="updatableFieldValue">
-          <input
+          <TextField
             id={this.props.className}
             type="text"
             disabled={this.props.disabled}
             value={this.state.value}
+            style={{width: "100%"}}
             onChange={this.onColumnsChange}
           />
         </div>
-        <button disabled={this.props.disabled}
-                className="updateButton"
-                onClick={() => this.applyDiff(true)}>
-          <BiPlus/>
-        </button>
+        <IconButton disabled={this.props.disabled}
+                    className="updateButton"
+                    onClick={() => this.applyDiff(true)}>
+          <Add/>
+        </IconButton>
       </div>
     )
   }
@@ -165,10 +167,11 @@ class GameControl extends Component<GameControlProps> {
               this.state.maxForAlive, this.state.isRun)
           }}
         />
-        <button className="runPauseButton"
-                onClick={() => this.onRunChange()}>
-          {this.state.isRun ? <BsPause/> : <BsPlay/>}
-        </button>
+        <IconButton className="runPauseButton"
+                    style={{marginTop: "0.7rem", marginRight: "16rem"}}
+                    onClick={() => this.onRunChange()}>
+          {this.state.isRun ? <Pause/> : <PlayArrow/>}
+        </IconButton>
       </div>
     );
   }

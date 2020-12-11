@@ -1,4 +1,6 @@
 import React, {ChangeEvent, Component} from 'react';
+import TextField from "material-ui/TextField";
+import RaisedButton from "material-ui/RaisedButton";
 
 import '../styles/Settings.css';
 
@@ -6,6 +8,7 @@ interface SettingsProps {
   columns: number
   rows: number
   seed: number
+
   onSettingsChange(newRows: number, newColumns: number, newSeed: number): void
 }
 
@@ -75,7 +78,7 @@ class Settings extends Component<SettingsProps> {
             <label htmlFor="columnsCnt">Columns cnt</label>
           </div>
           <div className="value">
-            <input
+            <TextField
               id="columnsCnt"
               type="text"
               value={this.state.columns}
@@ -88,7 +91,7 @@ class Settings extends Component<SettingsProps> {
             <label htmlFor="rowsCnt">Rows cnt</label>
           </div>
           <div className="value">
-            <input
+            <TextField
               id="rowsCnt"
               type="text"
               value={this.state.rows}
@@ -101,7 +104,7 @@ class Settings extends Component<SettingsProps> {
             <label htmlFor="seed">Seed</label>
           </div>
           <div className="value">
-            <input
+            <TextField
               id="seed"
               type="text"
               value={this.state.seed}
@@ -110,11 +113,8 @@ class Settings extends Component<SettingsProps> {
           </div>
         </div>
         <div className="error">{this.state.errMsg}</div>
-        <button className="settingsButton"
-                disabled={this.state.errMsg !== ""}
-                onClick={this.changeSettings}>
-          Apply
-        </button>
+        <RaisedButton className="settingsButton" label="Apply" primary={true} disabled={this.state.errMsg !== ""}
+                      onClick={this.changeSettings}/>
       </div>
     );
   }
