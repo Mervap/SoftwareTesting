@@ -1,16 +1,11 @@
-:root {
-    --font-small-size: 0.8rem;
-}
-
 .settings {
-    margin: 2.15rem 1rem 2rem 1rem;
+    margin: 2rem 1rem 2rem 1rem;
     width: 50%;
 }
 
 .field .name {
     justify-self: end;
-    /*padding: 0.8rem 1rem 0 0;*/
-    padding: 15px 0;
+    margin: 10px 0 10px auto;
 }
 
 .field .value {
@@ -22,19 +17,7 @@
     font-size: 15px;
 }
 
-.error {
-    width: 100%;
-    text-align: right;
-    font-size: var(--font-small-size);
-    color: red;
-}
-
 .field {
     display: flex;
     justify-content: flex-end;
-}
-
-.settingsButton {
-    float: right;
-    margin: 1.1rem 9rem 0 7.1rem;
 }

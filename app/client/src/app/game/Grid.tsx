@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import '../styles/Grid.css';
 import Cell from './Cell';
-import SeededRandomUtilities from 'seeded-random-utilities';
 
 interface GridProps {
   columns: number
   rows: number
-  seed: number
+  aliveArray: string
 }
 
 class Grid extends Component<GridProps> {
@@ -16,15 +15,13 @@ class Grid extends Component<GridProps> {
     const gridHeight = this.props.rows * 22;
     const rows = [];
 
-    const rand = new SeededRandomUtilities(String(this.props.seed));
-
     for (let i = 0; i < this.props.rows; ++i) {
       for (let j = 0; j < this.props.columns; ++j) {
-        let isAlive = rand.getRandom() > 0.75
+        const ind = i * this.props.columns + j
         rows.push(
           <Cell
-            key={i * this.props.columns + j}
-            isAlive={isAlive}
+            key={ind}
+            isAlive={this.props.aliveArray.charAt(ind) === '1'}
             height={20}
             width={20}
           />)

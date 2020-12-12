@@ -1,6 +1,5 @@
 import React, {ChangeEvent, Component} from 'react';
-import TextField from "material-ui/TextField";
-import RaisedButton from "material-ui/RaisedButton";
+import {TextField, Button} from "@material-ui/core";
 
 import '../styles/Settings.css';
 
@@ -18,7 +17,9 @@ class Settings extends Component<SettingsProps> {
     columns: String(this.props.columns),
     rows: String(this.props.rows),
     seed: String(this.props.seed),
-    errMsg: String("")
+    columnsErr: "",
+    rowsErr: "",
+    seedErr: "",
   }
 
   private static checkIntegerWithBounds(str: string, left: number, right: number, a: string): string {
@@ -33,18 +34,10 @@ class Settings extends Component<SettingsProps> {
   }
 
   private validateSettings(columns: string, rows: string, seed: string) {
-    let errMsg = Settings.checkIntegerWithBounds(columns, 1, 65, "Column numbers");
-    if (errMsg !== "") {
-      this.state.errMsg = errMsg
-      return
-    }
-    errMsg = Settings.checkIntegerWithBounds(rows, 1, 30, "Row numbers")
-    if (errMsg !== "") {
-      this.state.errMsg = errMsg
-      return
-    }
-    errMsg = Settings.checkIntegerWithBounds(seed, 0, 1e31, "Seed")
-    this.state.errMsg = errMsg
+    let columnsErr = Settings.checkIntegerWithBounds(columns, 1, 50, "Column numbers");
+    let rowsErr = Settings.checkIntegerWithBounds(rows, 1, 20, "Row numbers")
+    let seedErr = Settings.checkIntegerWithBounds(seed, 0, 1e31, "Seed");
+    this.setState({columnsErr: columnsErr, rowsErr: rowsErr, seedErr: seedErr})
   }
 
   private onColumnsChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -82,6 +75,11 @@ class Settings extends Component<SettingsProps> {
               id="columnsCnt"
               type="text"
               value={this.state.columns}
+              style={{
+                width: "17rem"
+              }}
+              error={this.state.columnsErr !== ""}
+              helperText={this.state.columnsErr}
               onChange={this.onColumnsChange}
             />
           </div>
@@ -95,6 +93,11 @@ class Settings extends Component<SettingsProps> {
               id="rowsCnt"
               type="text"
               value={this.state.rows}
+              style={{
+                width: "17rem"
+              }}
+              error={this.state.rowsErr !== ""}
+              helperText={this.state.rowsErr}
               onChange={this.onRowsChange}
             />
           </div>
@@ -108,13 +111,26 @@ class Settings extends Component<SettingsProps> {
               id="seed"
               type="text"
               value={this.state.seed}
+              style={{
+                width: "17rem"
+              }}
+              error={this.state.seedErr !== ""}
+              helperText={this.state.seedErr}
               onChange={this.onSeedChange}
             />
           </div>
         </div>
-        <div className="error">{this.state.errMsg}</div>
-        <RaisedButton className="settingsButton" label="Apply" primary={true} disabled={this.state.errMsg !== ""}
-                      onClick={this.changeSettings}/>
+        <Button className="settingsButton"
+                variant="contained"
+                color="primary"
+                style={{
+                  float: "right",
+                  margin: "1.5rem 9rem 0 7.1rem",
+                }}
+                disabled={this.state.columnsErr !== "" || this.state.rowsErr !== "" || this.state.seedErr !== ""}
+                onClick={this.changeSettings}>
+          Apply
+        </Button>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 .grid {
     display: flex;
     flex-wrap: wrap;
-    margin: 2rem auto 2rem auto;
+    margin: 1.3rem auto 0.9rem auto;
     border: 2pt solid darkgray;
 }
 

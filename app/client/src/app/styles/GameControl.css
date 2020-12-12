@@ -1,13 +1,13 @@
 .gameControl {
     width: 50%;
-    margin: 1.5rem 1rem 2rem 1rem;
+    margin: 1rem 1rem 2rem 1rem;
 }
 
 .updatableField {
     display: inline-grid;
     justify-items: start;
-    grid-template-columns: 15% 4.5% 20% 4.5%;
-    grid-template-rows: 1.4rem;
+    grid-template-columns: 15% 5% 20% 4%;
+    grid-template-rows: 2rem;
     width: 100%;
 }
 
@@ -43,9 +43,4 @@
     display: flex;
     justify-content: center;
     font-size: 14px;
-}
-
-.runPauseButton {
-    font-size: 20px;
-    text-align:center;
 }

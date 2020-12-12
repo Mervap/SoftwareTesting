@@ -1,6 +1,5 @@
 import React, {ChangeEvent, Component} from 'react';
-import TextField from "material-ui/TextField";
-import IconButton from "material-ui/IconButton";
+import {TextField, IconButton} from "@material-ui/core";
 import {Remove, Add, Pause, PlayArrow} from '@material-ui/icons'
 
 import '../styles/GameControl.css';
@@ -52,8 +51,12 @@ class FieldWithButtons extends Component<FieldWithButtonsProps> {
         </div>
         <IconButton disabled={this.props.disabled}
                     className="updateButton"
+                    style={{
+                      fontSize: "15px",
+                      marginBottom: "5px"
+                    }}
                     onClick={() => this.applyDiff(false)}>
-          <Remove/>
+          <Remove fontSize="inherit"/>
         </IconButton>
         <div className="updatableFieldValue">
           <TextField
@@ -62,13 +65,15 @@ class FieldWithButtons extends Component<FieldWithButtonsProps> {
             disabled={this.props.disabled}
             value={this.state.value}
             style={{width: "100%"}}
+            InputProps={{readOnly: true}}
             onChange={this.onColumnsChange}
           />
         </div>
         <IconButton disabled={this.props.disabled}
                     className="updateButton"
+                    style={{fontSize: "15px"}}
                     onClick={() => this.applyDiff(true)}>
-          <Add/>
+          <Add fontSize="inherit"/>
         </IconButton>
       </div>
     )
@@ -120,7 +125,7 @@ class GameControl extends Component<GameControlProps> {
           labelText={"Step delay"}
           baseNum={Number(this.state.delay)}
           diff={100}
-          minValue={1}
+          minValue={100}
           maxValue={60000} // 1 minute
           disabled={false}
           onValueChange={(value) => {
@@ -170,7 +175,7 @@ class GameControl extends Component<GameControlProps> {
         <IconButton className="runPauseButton"
                     style={{marginTop: "0.7rem", marginRight: "16rem"}}
                     onClick={() => this.onRunChange()}>
-          {this.state.isRun ? <Pause/> : <PlayArrow/>}
+          {this.state.isRun ? <Pause fontSize="small"/> : <PlayArrow fontSize="small"/>}
         </IconButton>
       </div>
     );

@@ -1,0 +1,10 @@
+.text-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.authenticationMenu {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 1rem 0 0;
+}

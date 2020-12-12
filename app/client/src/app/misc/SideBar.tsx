@@ -5,8 +5,30 @@ import {Link} from "react-router-dom";
 import { FaGithub } from 'react-icons/fa';
 import { BiGame, BiHelpCircle, BiSave } from 'react-icons/bi'
 
-class SideBar extends Component {
+interface SideBarProps {
+  username: string | null
+}
+
+class SideBar extends Component<SideBarProps> {
   render() {
+    let items = [
+      <MenuItem icon={<BiGame />}>
+          Game
+        <Link to="/" />
+      </MenuItem>,
+      <MenuItem icon={<BiHelpCircle />}>
+        Help
+        <Link to="/help" />
+      </MenuItem>
+    ]
+    if (this.props.username !== null) {
+      items.push(
+        <MenuItem icon={<BiSave />}>
+          Saved fields
+          <Link to="/storage" />
+        </MenuItem>
+      )
+    }
     return (
       <ProSidebar
         // image={image ? sidebarBg : false}
@@ -35,18 +57,7 @@ class SideBar extends Component {
 
         <SidebarContent>
           <Menu iconShape="circle">
-            <MenuItem icon={<BiGame />}>
-              Game
-              <Link to="/" />
-            </MenuItem>
-            <MenuItem icon={<BiHelpCircle />}>
-              Help
-              <Link to="/help" />
-            </MenuItem>
-            <MenuItem icon={<BiSave />}>
-              Saved fields
-              <Link to="/storage" />
-            </MenuItem>
+            {items}
           </Menu>
         </SidebarContent>
 
