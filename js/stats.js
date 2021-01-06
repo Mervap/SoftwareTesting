@@ -6,54 +6,54 @@ pathFormatted: "group_missing-name-b06d1",
 stats: {
     "name": "Global Information",
     "numberOfRequests": {
-        "total": "1",
-        "ok": "1",
-        "ko": "0"
+        "total": "450",
+        "ok": "0",
+        "ko": "450"
     },
     "minResponseTime": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "0",
+        "ok": "-",
+        "ko": "0"
     },
     "maxResponseTime": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "74",
+        "ok": "-",
+        "ko": "74"
     },
     "meanResponseTime": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "1",
+        "ok": "-",
+        "ko": "1"
     },
     "standardDeviation": {
-        "total": "0",
-        "ok": "0",
-        "ko": "-"
+        "total": "8",
+        "ok": "-",
+        "ko": "8"
     },
     "percentiles1": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "0",
+        "ok": "-",
+        "ko": "0"
     },
     "percentiles2": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "0",
+        "ok": "-",
+        "ko": "0"
     },
     "percentiles3": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "1",
+        "ok": "-",
+        "ko": "1"
     },
     "percentiles4": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "71",
+        "ok": "-",
+        "ko": "71"
     },
     "group1": {
     "name": "t < 800 ms",
-    "count": 1,
-    "percentage": 100
+    "count": 0,
+    "percentage": 0
 },
     "group2": {
     "name": "800 ms < t < 1200 ms",
@@ -67,13 +67,13 @@ stats: {
 },
     "group4": {
     "name": "failed",
-    "count": 0,
-    "percentage": 0
+    "count": 450,
+    "percentage": 100
 },
     "meanNumberOfRequestsPerSecond": {
-        "total": "1",
-        "ok": "1",
-        "ko": "-"
+        "total": "3.879",
+        "ok": "-",
+        "ko": "3.879"
     }
 },
 contents: {
@@ -85,54 +85,54 @@ pathFormatted: "req_get--get-13bec",
 stats: {
     "name": "GET /get",
     "numberOfRequests": {
-        "total": "1",
-        "ok": "1",
-        "ko": "0"
+        "total": "450",
+        "ok": "0",
+        "ko": "450"
     },
     "minResponseTime": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "0",
+        "ok": "-",
+        "ko": "0"
     },
     "maxResponseTime": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "74",
+        "ok": "-",
+        "ko": "74"
     },
     "meanResponseTime": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "1",
+        "ok": "-",
+        "ko": "1"
     },
     "standardDeviation": {
-        "total": "0",
-        "ok": "0",
-        "ko": "-"
+        "total": "8",
+        "ok": "-",
+        "ko": "8"
     },
     "percentiles1": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "0",
+        "ok": "-",
+        "ko": "0"
     },
     "percentiles2": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "0",
+        "ok": "-",
+        "ko": "0"
     },
     "percentiles3": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "1",
+        "ok": "-",
+        "ko": "1"
     },
     "percentiles4": {
-        "total": "34",
-        "ok": "34",
-        "ko": "-"
+        "total": "71",
+        "ok": "-",
+        "ko": "71"
     },
     "group1": {
     "name": "t < 800 ms",
-    "count": 1,
-    "percentage": 100
+    "count": 0,
+    "percentage": 0
 },
     "group2": {
     "name": "800 ms < t < 1200 ms",
@@ -146,13 +146,13 @@ stats: {
 },
     "group4": {
     "name": "failed",
-    "count": 0,
-    "percentage": 0
+    "count": 450,
+    "percentage": 100
 },
     "meanNumberOfRequestsPerSecond": {
-        "total": "1",
-        "ok": "1",
-        "ko": "-"
+        "total": "3.879",
+        "ok": "-",
+        "ko": "3.879"
     }
 }
     }
