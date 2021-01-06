@@ -1,0 +1,77 @@
+name: perftest
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'TinkoffPerfWorkshop/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  perf_job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # runner image config
+        JAVA_VERSION: ['11.0.8']
+        SBT_VERSION: ['1.3.13']
+        SCALA_VERSION: ['2.12.12']
+    container: hseeberger/scala-sbt:${{ matrix.JAVA_VERSION }}_${{ matrix.SBT_VERSION }}_${{ matrix.SCALA_VERSION }}
+    env:
+      # simulation config
+      ORGANISATION: "ru.tinkoff.load"
+      SERVICE_NAME: "myservice"
+      SIMULATION: "Debug"
+      baseUrl: "http://httpbin"
+
+      # logs & metrics config
+      CONSOLE_LOGGING: "ON"
+      GRAPHITE_HOST: "influxdb"
+      GRAPHITE_PORT: "2003"
+      INFLUX_PREFIX: "experiment"
+
+      # cache config
+      SBT_OPTS: "-Dsbt.global.base=sbt-cache/.sbtboot -Dsbt.boot.directory=sbt-cache/.boot -Dsbt.ivy.home=sbt-cache/.ivy -Dconfig.override_with_env_vars=true"
+      COURSIER_CACHE: sbt-cache/coursier
+    defaults:
+      run:
+        working-directory: TinkoffPerfWorkshop/gatling-template
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache sbt files
+      uses: actions/cache@v2
+      with:
+        path: |
+          sbt-cache/.ivy/cache
+          sbt-cache/.boot
+          sbt-cache/.sbtboot
+          sbt-cache/coursier
+        key: ${{ github.ref }}
+    - name: Test
+      if: env.ORGANISATION != '' && env.SERVICE_NAME != '' && env.SIMULATION != ''
+      run: |
+        rm -rf target/gatling/*
+        echo "Runing simulation $ORGANISATION.$SERVICE_NAME.$SIMULATION"
+        sbt "gatling:testOnly $ORGANISATION.$SERVICE_NAME.$SIMULATION"
+      env:
+        JAVA_OPTS: "-Dgatling.charting.noReports=true"
+    - name: Test artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: test_artifacts
+        path: TinkoffPerfWorkshop/gatling-template/target/gatling/**/simulation.log
+    - name: Pages
+      run: |
+        sbt "gatling:generateReport"
+        mkdir -p public
+        cp -r target/gatling/**/index.html public/
+        cp -r target/gatling/**/js/ public/
+        cp -r target/gatling/**/style/ public/
+        rm -rf target/gatling/*
+    - name: Pages artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: pages_artifacts
+        path: TinkoffPerfWorkshop/gatling-template/public
