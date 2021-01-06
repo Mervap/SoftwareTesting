@@ -62,7 +62,7 @@ jobs:
       with:
         name: test_artifacts
         path: TinkoffPerfWorkshop/gatling-template/target/gatling/**/simulation.log
-    - name: Pages
+    - name: Collect pages
       run: |
         sbt "gatling:generateReport"
         mkdir -p public
@@ -70,8 +70,12 @@ jobs:
         cp -r target/gatling/**/js/ public/
         cp -r target/gatling/**/style/ public/
         rm -rf target/gatling/*
-    - name: Pages artifacts
-      uses: actions/upload-artifact@v2
+    - name: Install rsync
+      run: apt update && apt install -y rsync
+    - name: Deploy pages
+      uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
-        name: pages_artifacts
-        path: TinkoffPerfWorkshop/gatling-template/public
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: tinkoff-pages
+        FOLDER: TinkoffPerfWorkshop/gatling-template/public
+        CLEAN: true
