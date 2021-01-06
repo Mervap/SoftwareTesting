@@ -24,7 +24,7 @@ jobs:
       ORGANISATION: "ru.tinkoff.load"
       SERVICE_NAME: "myservice"
       SIMULATION: "Debug"
-      baseUrl: "http://httpbin"
+      baseUrl: "https://httpbin.org/"
 
       # logs & metrics config
       CONSOLE_LOGGING: "ON"
