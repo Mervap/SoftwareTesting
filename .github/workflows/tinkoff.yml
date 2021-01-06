@@ -12,19 +12,12 @@ on:
 jobs:
   perf_job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # runner image config
-        JAVA_VERSION: ['11.0.8']
-        SBT_VERSION: ['1.3.13']
-        SCALA_VERSION: ['2.12.12']
-    container: hseeberger/scala-sbt:${{ matrix.JAVA_VERSION }}_${{ matrix.SBT_VERSION }}_${{ matrix.SCALA_VERSION }}
     env:
       # simulation config
       ORGANISATION: "ru.tinkoff.load"
       SERVICE_NAME: "myservice"
-      SIMULATION: "Debug"
-      baseUrl: "https://httpbin.org/"
+      SIMULATION: "MaxPerformance"
+      baseUrl: "http://localhost:7000"
 
       # logs & metrics config
       CONSOLE_LOGGING: "ON"
@@ -40,6 +33,8 @@ jobs:
         working-directory: TinkoffPerfWorkshop/gatling-template
     steps:
     - uses: actions/checkout@v2
+    - name: Setup Java and Scala
+      uses: olafurpg/setup-scala@v10
     - name: Cache sbt files
       uses: actions/cache@v2
       with:
@@ -49,6 +44,13 @@ jobs:
           sbt-cache/.sbtboot
           sbt-cache/coursier
         key: ${{ github.ref }}
+    - name: Up mock server
+      working-directory: TinkoffPerfWorkshop
+      run: |
+        git clone https://gitlab.com/tinkoffperfworkshop/part-2/gatling-template-http.git
+        cd gatling-template-http/docker
+        docker-compose up -d
+        docker-compose ps
     - name: Test
       if: env.ORGANISATION != '' && env.SERVICE_NAME != '' && env.SIMULATION != ''
       run: |
@@ -70,8 +72,6 @@ jobs:
         cp -r target/gatling/**/js/ public/
         cp -r target/gatling/**/style/ public/
         rm -rf target/gatling/*
-    - name: Install rsync
-      run: apt update && apt install -y rsync
     - name: Deploy pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
