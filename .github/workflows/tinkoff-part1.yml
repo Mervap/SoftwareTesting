@@ -67,6 +67,7 @@ jobs:
           sbt "gatling:generateReport"
           mkdir -p public/
           cp -r target/gatling/**/index.html public/
+          cp -r target/gatling/**/req_* public/
           cp -r target/gatling/**/js/ public/
           cp -r target/gatling/**/style/ public/
           rm -rf target/gatling/*
