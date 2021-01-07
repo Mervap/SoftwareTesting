@@ -1,7 +1,7 @@
 {
   "simulation": "ru.tinkoff.load.myservice.MaxPerformance",
   "simulationId": "maxperformance",
-  "start": 1609984537325,
+  "start": 1609989295956,
   "description": "",
   "scenarios": ["Common Scenario"],
   "assertions": [
