@@ -1,0 +1,10 @@
+{
+  "simulation": "ru.tinkoff.load.myservice.Debug",
+  "simulationId": "debug",
+  "start": 1609978887000,
+  "description": "",
+  "scenarios": ["Common Scenario"],
+  "assertions": [
+
+  ]
+}
