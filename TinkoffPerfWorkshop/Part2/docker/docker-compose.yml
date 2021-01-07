@@ -1,0 +1,13 @@
+version: '3'
+services:
+  mockServer:
+    container_name: mockServer
+    image: maksimall89/javalinmock:1.0
+    ports:
+      - 7000:7000
+      - 9010:9010
+      - 9011:9011
+
+networks:
+  default:
+    name: gatling-sandbox

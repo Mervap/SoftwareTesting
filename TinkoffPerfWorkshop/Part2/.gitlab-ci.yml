@@ -1,0 +1,9 @@
+# Подключить шаблонный пайплайн
+include:
+  - project: 'tinkoffperfworkshop/part-1/perftest-pipeline-template'
+    ref: 'v0.1.0'
+    file: '.performance-test-pipeline.yml'
+# Переопределить переменные из шаблона или добавить новые
+variables:
+  SIMULATION: "MaxPerformance"
+  baseUrl: "http://mockServer:7000"

@@ -1,10 +1,10 @@
-name: perftest
+name: Tinkoff perftest. Part 2
 
 on:
   push:
     branches: [ master ]
     paths:
-      - 'TinkoffPerfWorkshop/**'
+      - 'TinkoffPerfWorkshop/Part2/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
       COURSIER_CACHE: sbt-cache/coursier
     defaults:
       run:
-        working-directory: TinkoffPerfWorkshop/gatling-template
+        working-directory: TinkoffPerfWorkshop/Part2
     steps:
     - uses: actions/checkout@v2
     - name: Setup Java and Scala
@@ -45,10 +45,8 @@ jobs:
           sbt-cache/coursier
         key: ${{ github.ref }}
     - name: Up mock server
-      working-directory: TinkoffPerfWorkshop
       run: |
-        git clone https://gitlab.com/tinkoffperfworkshop/part-2/gatling-template-http.git
-        cd gatling-template-http/docker
+        cd docker
         docker-compose up -d
         docker-compose ps
     - name: Test
@@ -63,11 +61,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test_artifacts
-        path: TinkoffPerfWorkshop/gatling-template/target/gatling/**/simulation.log
+        path: TinkoffPerfWorkshop/Part2/target/gatling/**/simulation.log
     - name: Collect pages
       run: |
         sbt "gatling:generateReport"
-        mkdir -p public
+        mkdir -p public/
         cp -r target/gatling/**/index.html public/
         cp -r target/gatling/**/js/ public/
         cp -r target/gatling/**/style/ public/
@@ -77,5 +75,6 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: tinkoff-pages
-        FOLDER: TinkoffPerfWorkshop/gatling-template/public
+        FOLDER: TinkoffPerfWorkshop/Part2/public
+        TARGET_FOLDER: part2
         CLEAN: true
