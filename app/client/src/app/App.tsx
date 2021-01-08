@@ -4,7 +4,6 @@ import Game from "./game/Game";
 import Help from "./misc/Help";
 import Storage from "./misc/Storage";
 import SideBar from "./misc/SideBar";
-import Login from "./authentication/Login";
 import {
   MuiThemeProvider,
   unstable_createMuiStrictModeTheme as createMuiTheme
@@ -13,12 +12,13 @@ import {
 import 'react-pro-sidebar/dist/css/styles.css';
 import './styles/App.css';
 import AuthenticationMenu from "./authentication/AuthenticationMenu";
-import Register from "./authentication/Registration";
+import AuthorizationPage from "./authentication/AuthorizationPage";
+import {AuthenticatedUser, GuestUser, UnknownUser} from "./utils/CurrentUser";
 
 class App extends Component {
 
   state = {
-    currentUser: null as (string | null)
+    currentUser: new UnknownUser()
   }
 
   render() {
@@ -27,32 +27,34 @@ class App extends Component {
       <div className="App">
         <MuiThemeProvider theme={createMuiTheme()}>
           <BrowserRouter>
-            <SideBar username={this.state.currentUser}/>
+            <SideBar currentUser={this.state.currentUser}/>
             <div className="mainWindow">
               <AuthenticationMenu
-                username={this.state.currentUser}
-                onLogin={(username) => this.setState({currentUser: username})}
-                onLogout={() => this.setState({currentUser: null})}
+                currentUser={this.state.currentUser}
+                onLogin={(username) => this.setState({currentUser: new AuthenticatedUser(username)})}
+                onLogout={() => this.setState({currentUser: new GuestUser()})}
               />
               <Switch>
                 <Route exact path='/' component={Game}/>
                 <Route exact path='/help' component={Help}/>
                 <Route exact path='/storage'
                        render={(props) =>
-                         <Storage username={this.state.currentUser} {...props}/>}
+                         <Storage currentUser={this.state.currentUser} {...props}/>}
                 />
                 <Route exact path='/login'
                        render={(props) =>
-                         <Login
-                           username={this.state.currentUser}
-                           onLogin={(username) => this.setState({currentUser: username})}
+                         <AuthorizationPage
+                           currentUser={this.state.currentUser}
+                           isRegistration={false}
+                           onAuthorization={(username) => this.setState({currentUser: new AuthenticatedUser(username)})}
                            {...props}/>}
                 />
                 <Route exact path='/register'
                        render={(props) =>
-                         <Register
-                           username={this.state.currentUser}
-                           onRegister={(username) => this.setState({currentUser: username})}
+                         <AuthorizationPage
+                           currentUser={this.state.currentUser}
+                           isRegistration={true}
+                           onAuthorization={(username) => this.setState({currentUser: new AuthenticatedUser(username)})}
                            {...props}/>}
                 />
               </Switch>

@@ -15,6 +15,7 @@ import {usePopupState, bindTrigger, bindMenu} from 'material-ui-popup-state/hook
 
 import '../styles/AuthenticationMenu.css';
 import {apiAxiosInstance} from "../utils/apiUtils";
+import {AuthenticatedUser, CurrentUser} from "../utils/CurrentUser";
 
 const StyledMenu = withStyles({
   paper: {
@@ -54,7 +55,7 @@ const StyledMenuItem = withStyles((theme) => ({
 ));
 
 interface AuthenticationMenuProps {
-  username: string | null
+  currentUser: CurrentUser
 
   onLogin(username: string): void
 
@@ -63,7 +64,7 @@ interface AuthenticationMenuProps {
 
 const AuthenticationMenu = (props: AuthenticationMenuProps) => {
   function isAuthenticated(): boolean {
-    if (props.username != null) return true
+    if (props.currentUser instanceof AuthenticatedUser) return true
     apiAxiosInstance.get("/get_username")
       .then(function (response) {
         if (response.status === 200 && response.data.username !== undefined) {
@@ -133,12 +134,9 @@ const AuthenticationMenu = (props: AuthenticationMenuProps) => {
   }
 
   let menuContent: ReactNode
-  let menuText: string
   if (isAuthenticated()) {
-    menuText = props.username as string
     menuContent = <LogoutMenuItem key="logoutItem" />
   } else {
-    menuText = "guest"
     menuContent = [<LoginMenuItem key="loginItem"/>, <RegisterMenuItem key="registerItem" />]
   }
 
@@ -151,7 +149,7 @@ const AuthenticationMenu = (props: AuthenticationMenuProps) => {
         color="primary"
         {...bindTrigger(popupState)}
       >
-        Welcome, {menuText}!
+        Welcome, {props.currentUser.username}!
       </Button>
       <StyledMenu
         id="customized-menu"

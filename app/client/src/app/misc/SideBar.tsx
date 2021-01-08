@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import { ProSidebar, Menu, MenuItem, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
+import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarFooter, SidebarHeader} from 'react-pro-sidebar';
 import {Link} from "react-router-dom";
 
-import { FaGithub } from 'react-icons/fa';
-import { BiGame, BiHelpCircle, BiSave } from 'react-icons/bi'
+import {FaGithub} from 'react-icons/fa';
+import {BiGame, BiHelpCircle, BiSave} from 'react-icons/bi'
+import {AuthenticatedUser, CurrentUser} from "../utils/CurrentUser";
 
 interface SideBarProps {
-  username: string | null
+  currentUser: CurrentUser
 }
 
 class SideBar extends Component<SideBarProps> {
@@ -21,7 +22,7 @@ class SideBar extends Component<SideBarProps> {
         <Link to="/help" />
       </MenuItem>
     ]
-    if (this.props.username !== null) {
+    if (this.props.currentUser instanceof AuthenticatedUser) {
       items.push(
         <MenuItem icon={<BiSave />}>
           Saved fields

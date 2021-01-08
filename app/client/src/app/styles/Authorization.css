@@ -1,11 +1,11 @@
-.register_button {
+.authorization_button {
   margin: 15px;
 }
 
-.register_page {
+.authorization_page {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50%;
+  height: 70%;
   width: 100%;
 }
