@@ -33,7 +33,6 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
   @Throws(Exception::class)
   override fun configure(httpSecurity: HttpSecurity) {
-    httpSecurity.cors().configurationSource(corsConfigurationSource)
     httpSecurity
       .csrf()
       .disable()
@@ -64,7 +63,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
   private val corsConfigurationSource: CorsConfigurationSource
     get() {
       val configuration = CorsConfiguration()
-      configuration.allowedOrigins = listOf("http://localhost:3000")
+      configuration.allowedOriginPatterns = listOf("*")
       configuration.allowedMethods = listOf("GET", "POST")
       configuration.allowCredentials = true
       configuration.allowedHeaders = listOf("*")
