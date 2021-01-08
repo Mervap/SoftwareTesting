@@ -16,9 +16,7 @@ data class GameInfo(val aliveArray: String,
                     val maxForAlive: Int)
 
 @Controller
-class IterationController(
-  private val userService: UserService
-) {
+class IterationController {
 
   @ResponseBody
   @PostMapping("/next_iteration", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -66,22 +64,4 @@ class IterationController(
     val encodedGrid = Base64.getEncoder().encodeToString(newGrid.toByteArray())
     return "{\"aliveArray\": \"$encodedGrid\"}"
   }
-
-//  @PostMapping("/registration")
-//  fun addUser(@RequestBody userForm: @Valid User,
-//              bindingResult: BindingResult,
-//              model: Model): String {
-//    if (bindingResult.hasErrors()) {
-//      return "index"
-//    }
-//    if (userForm.password != userForm.passwordConfirm) {
-//      model.addAttribute("passwordError", "Пароли не совпадают")
-//      return "index"
-//    }
-//    if (!userService.saveUser(userForm)) {
-//      model.addAttribute("usernameError", "Пользователь с таким именем уже существует")
-//      return "index"
-//    }
-//    return "index"
-//  }
 }

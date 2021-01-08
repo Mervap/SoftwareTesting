@@ -13,13 +13,10 @@ import java.lang.Exception
 class MvcConfig : WebMvcConfigurer {
 
   override fun addCorsMappings(registry: CorsRegistry) {
-    registry.addMapping("/**")
-      .allowedOrigins("http://localhost:3000")
-      .allowedMethods("*");
+    registry.addMapping("/**").allowedMethods("*")
   }
 
   override fun addViewControllers(registry: ViewControllerRegistry) {
     registry.addViewController("/login").setViewName("login")
-//    registry.addViewController("/news").setViewName("news")
   }
 }

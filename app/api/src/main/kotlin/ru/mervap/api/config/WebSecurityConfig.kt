@@ -41,26 +41,19 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
       .configurationSource(corsConfigurationSource)
       .and()
       .authorizeRequests()
-      //Доступ только для не зарегистрированных пользователей
+      // Only for non-authorized
       .antMatchers("/registration").not().fullyAuthenticated()
-      //Доступ разрешен всем пользователей
-      .antMatchers("/my_saves").hasRole("USER")
-      .antMatchers("/get_username").hasRole("USER")
-      //Все остальные страницы требуют аутентификации
+      // Only for authorized
+      .antMatchers("/my_saves", "/get_username").hasRole("USER")
+      // Other for all
       .anyRequest().permitAll()
       .and()
-      //Настройка для входа в систему
       .formLogin()
       .loginPage("/login")
-      //Перенарпавление на главную страницу после успешного входа
       .defaultSuccessUrl("/")
       .permitAll()
       .successHandler { _, response, _ -> response.status = 200 }
-      .failureHandler { _, response, _ ->
-        println("Auf")
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        response.sendError(204)
-      }
+      .failureHandler { _, response, _ -> response.sendError(400) }
       .and()
       .logout()
       .logoutSuccessHandler { _, response, _ -> response.status = 200 }
@@ -81,7 +74,6 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
   @Autowired
-  @Throws(Exception::class)
   protected fun configureGlobal(auth: AuthenticationManagerBuilder) {
     auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder())
   }

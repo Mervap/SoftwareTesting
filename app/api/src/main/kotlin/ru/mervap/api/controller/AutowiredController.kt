@@ -14,31 +14,11 @@ import ru.mervap.api.entity.User
 import java.util.*
 
 @Controller
-class AutowiredController(
-  private val userService: UserService
-) {
+class AutowiredController {
 
   @ResponseBody
   @GetMapping("/get_username", produces = [MediaType.APPLICATION_JSON_VALUE])
   fun getUsername(@AuthenticationPrincipal user: User): String {
     return "{\"username\": \"${user.username}\"}"
   }
-
-//  @PostMapping("/registration")
-//  fun addUser(@RequestBody userForm: @Valid User,
-//              bindingResult: BindingResult,
-//              model: Model): String {
-//    if (bindingResult.hasErrors()) {
-//      return "index"
-//    }
-//    if (userForm.password != userForm.passwordConfirm) {
-//      model.addAttribute("passwordError", "Пароли не совпадают")
-//      return "index"
-//    }
-//    if (!userService.saveUser(userForm)) {
-//      model.addAttribute("usernameError", "Пользователь с таким именем уже существует")
-//      return "index"
-//    }
-//    return "index"
-//  }
 }
