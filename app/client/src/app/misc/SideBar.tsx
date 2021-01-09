@@ -13,18 +13,18 @@ interface SideBarProps {
 class SideBar extends Component<SideBarProps> {
   render() {
     let items = [
-      <MenuItem icon={<BiGame />}>
+      <MenuItem key="Game" icon={<BiGame />}>
           Game
         <Link to="/" />
       </MenuItem>,
-      <MenuItem icon={<BiHelpCircle />}>
+      <MenuItem key="Help" icon={<BiHelpCircle />}>
         Help
         <Link to="/help" />
       </MenuItem>
     ]
     if (this.props.currentUser instanceof AuthenticatedUser) {
       items.push(
-        <MenuItem icon={<BiSave />}>
+        <MenuItem key="Saved fields" icon={<BiSave />}>
           Saved fields
           <Link to="/storage" />
         </MenuItem>

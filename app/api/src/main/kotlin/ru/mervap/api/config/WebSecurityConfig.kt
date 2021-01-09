@@ -43,7 +43,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
       // Only for non-authorized
       .antMatchers("/registration").not().fullyAuthenticated()
       // Only for authorized
-      .antMatchers("/my_saves", "/get_username").hasRole("USER")
+      .antMatchers("/get_username", "/save_field", "/get_saved_fields").hasRole("USER")
       // Other for all
       .anyRequest().permitAll()
       .and()

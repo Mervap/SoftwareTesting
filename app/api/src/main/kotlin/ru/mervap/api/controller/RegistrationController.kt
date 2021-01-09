@@ -24,9 +24,7 @@ data class UserInfo(
 )
 
 @Controller
-class RegistrationController(
-  private val userService: UserService
-) {
+class RegistrationController(private val userService: UserService) {
 
   @ResponseBody
   @PostMapping("/registration")

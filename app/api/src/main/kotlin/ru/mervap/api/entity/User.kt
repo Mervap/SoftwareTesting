@@ -6,11 +6,18 @@ import javax.persistence.*
 import javax.validation.constraints.Size
 
 @Entity
-@Table(name = "users")
+@Table(
+  name = "users",
+  indexes = [
+    Index(name = "id_username_index", columnList = "id,username", unique = true),
+    Index(name = "username_id_index", columnList = "username,id", unique = true)
+  ]
+)
 class User(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long,
+  @Column(unique = true)
   @Size(min = 2, max = 30)
   private var username: String,
   @Size(min = 6, max = 60)

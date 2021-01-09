@@ -14,6 +14,7 @@ import './styles/App.css';
 import AuthenticationMenu from "./authentication/AuthenticationMenu";
 import AuthorizationPage from "./authentication/AuthorizationPage";
 import {AuthenticatedUser, GuestUser, UnknownUser} from "./utils/CurrentUser";
+import {Redirect} from "react-router";
 
 class App extends Component {
 
@@ -22,7 +23,6 @@ class App extends Component {
   }
 
   render() {
-    // console.log(this.state.currentUser)
     return (
       <div className="App">
         <MuiThemeProvider theme={createMuiTheme()}>
@@ -35,13 +35,15 @@ class App extends Component {
                 onLogout={() => this.setState({currentUser: new GuestUser()})}
               />
               <Switch>
-                <Route exact path='/' component={Game}/>
-                <Route exact path='/help' component={Help}/>
-                <Route exact path='/storage'
+                <Route exact path='/'
+                       render={(props) =>
+                         <Game currentUser={this.state.currentUser} {...props}/>}/>
+                <Route path='/help' component={Help}/>
+                <Route path='/storage'
                        render={(props) =>
                          <Storage currentUser={this.state.currentUser} {...props}/>}
                 />
-                <Route exact path='/login'
+                <Route path='/login'
                        render={(props) =>
                          <AuthorizationPage
                            currentUser={this.state.currentUser}
@@ -49,7 +51,7 @@ class App extends Component {
                            onAuthorization={(username) => this.setState({currentUser: new AuthenticatedUser(username)})}
                            {...props}/>}
                 />
-                <Route exact path='/register'
+                <Route path='/register'
                        render={(props) =>
                          <AuthorizationPage
                            currentUser={this.state.currentUser}
@@ -57,6 +59,7 @@ class App extends Component {
                            onAuthorization={(username) => this.setState({currentUser: new AuthenticatedUser(username)})}
                            {...props}/>}
                 />
+                <Redirect from='/' to='/'/>;
               </Switch>
             </div>
           </BrowserRouter>

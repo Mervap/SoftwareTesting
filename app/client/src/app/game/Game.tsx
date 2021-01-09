@@ -5,8 +5,16 @@ import Settings from './Settings'
 import GameControl from "./GameControl";
 import SeededRandomUtilities from "seeded-random-utilities";
 import {apiAxiosInstance} from "../utils/apiUtils";
+import {Button, Snackbar} from "@material-ui/core";
+import Alert, {Color} from '@material-ui/lab/Alert';
+import {SnackbarCloseReason} from "@material-ui/core/Snackbar/Snackbar";
+import {AuthenticatedUser, CurrentUser} from "../utils/CurrentUser";
 
-class Game extends Component {
+interface GameProps {
+  currentUser: CurrentUser
+}
+
+class Game extends Component<GameProps> {
 
   getGrid = (rows: number, columns: number, seed: number): string => {
     let cells = "";
@@ -36,11 +44,21 @@ class Game extends Component {
     minForAlive: 2,
     maxForAlive: 3,
     iteration: 0,
-    timerId: 0
+    timerId: 0,
+
+    fieldSaved: false,
+    saveAlertOpen: false,
+    saveAlertSeverity: "error" as Color,
+    saveAlertText: ""
   }
 
   onSettingsChange = (newRows: number, newColumns: number, newSeed: number) => {
-    this.setState({rows: newRows, columns: newColumns, seed: newSeed, aliveArray: this.getGrid(newRows, newColumns, newSeed)});
+    this.setState({
+      rows: newRows,
+      columns: newColumns,
+      seed: newSeed,
+      aliveArray: this.getGrid(newRows, newColumns, newSeed)
+    });
   }
 
   onGameControlChange = (delay: number, cntForBirth: number, minForAlive: number, maxForAlive: number, isRun: boolean) => {
@@ -53,6 +71,7 @@ class Game extends Component {
     });
 
     if (isRun) {
+      this.setState({fieldSaved: false})
       clearInterval(this.state.timerId)
       let timerId = setInterval(() => {
         const aliveArray = btoa(this.state.aliveArray)
@@ -71,12 +90,13 @@ class Game extends Component {
             if (response.status === 200 && response.data.aliveArray !== undefined) {
               self.setState({aliveArray: atob(response.data.aliveArray), iteration: self.state.iteration + 1})
               self.setState({redirect: true})
-            }
-            else {
+            } else {
               console.error(response);
             }
           })
-          .catch(function (error) { console.error(error); });
+          .catch(function (error) {
+            console.error(error);
+          });
       }, delay)
       this.setState({timerId: timerId})
     } else {
@@ -84,6 +104,38 @@ class Game extends Component {
     }
     // console.log(String(delay) + " " + String(cntForBirth) + " " + String(minForAlive) + " " + String(maxForAlive) + " " + String(isRun))
   }
+
+  saveField = () => {
+    this.setState({fieldSaved: true, saveAlertOpen: false})
+    const FieldInfo = {
+      columns: this.state.columns,
+      rows: this.state.rows,
+      aliveArray: this.state.aliveArray,
+      iteration: this.state.iteration
+    }
+    const onError = () => {
+      this.setState({
+        fieldSaved: false,
+        saveAlertOpen: true,
+        saveAlertSeverity: "error",
+        saveAlertText: "Error during saving field. Please, try again"
+      })
+    }
+    apiAxiosInstance.post("/save_field", FieldInfo)
+      .then(response => {
+        if (response.status === 200) {
+          this.setState({
+            saveAlertOpen: true,
+            saveAlertSeverity: "success",
+            saveAlertText: "Plot succeeded saved!"
+          })
+        } else onError()
+      })
+      .catch(e => onError())
+  }
+
+  onAlertClose = (event: React.SyntheticEvent<any>) => this.setState({saveAlertOpen: false})
+  onAlertCloseReason = (event: React.SyntheticEvent<any>, reason: SnackbarCloseReason) => this.onAlertClose(event)
 
   render() {
     return (
@@ -93,6 +145,37 @@ class Game extends Component {
           rows={this.state.rows}
           aliveArray={this.state.aliveArray}
         />
+        <Snackbar
+          open={this.state.saveAlertOpen}
+          autoHideDuration={7500}
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          onClose={this.onAlertCloseReason}
+        >
+          <Alert severity={this.state.saveAlertSeverity} onClose={this.onAlertClose}>
+            {this.state.saveAlertText}
+          </Alert>
+        </Snackbar>
+        <Button className="submit_button"
+                style={{margin: "15px"}}
+                variant="contained"
+                color="primary"
+                onClick={e => {
+                  if (!(this.props.currentUser instanceof AuthenticatedUser)) {
+                    this.setState({
+                      saveAlertOpen: true,
+                      saveAlertSeverity: "error",
+                      saveAlertText: "You have to login to save fields"
+                    })
+                  } else if (this.state.fieldSaved) {
+                    this.setState({
+                      saveAlertOpen: true,
+                      saveAlertSeverity: "warning",
+                      saveAlertText: "This field already saved",
+                    })
+                  } else this.saveField()
+                }}>
+          Save
+        </Button>
         <div className="all_settings">
           <Settings
             columns={this.state.columns}

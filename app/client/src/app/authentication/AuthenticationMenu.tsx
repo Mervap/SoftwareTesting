@@ -1,20 +1,20 @@
-import React, {Component, ReactNode} from 'react';
+import React, {Component, ReactNode, useEffect, useState} from 'react';
 import {
-  Menu,
-  MenuProps,
-  MenuItem,
-  MenuItemProps,
+  Button,
   ListItemIcon,
   ListItemText,
-  Button,
+  Menu,
+  MenuItem,
+  MenuItemProps,
+  MenuProps,
   withStyles
 } from '@material-ui/core';
-import {Person, PersonAdd, ExitToApp} from '@material-ui/icons';
+import {ExitToApp, Person, PersonAdd} from '@material-ui/icons';
 import {Link} from "react-router-dom";
-import {usePopupState, bindTrigger, bindMenu} from 'material-ui-popup-state/hooks'
+import {bindMenu, bindTrigger, usePopupState} from 'material-ui-popup-state/hooks'
 
 import '../styles/AuthenticationMenu.css';
-import {apiAxiosInstance} from "../utils/apiUtils";
+import {apiAxiosInstance, LoadingStage} from "../utils/apiUtils";
 import {AuthenticatedUser, CurrentUser} from "../utils/CurrentUser";
 
 const StyledMenu = withStyles({
@@ -63,18 +63,8 @@ interface AuthenticationMenuProps {
 }
 
 const AuthenticationMenu = (props: AuthenticationMenuProps) => {
-  function isAuthenticated(): boolean {
-    if (props.currentUser instanceof AuthenticatedUser) return true
-    apiAxiosInstance.get("/get_username")
-      .then(function (response) {
-        if (response.status === 200 && response.data.username !== undefined) {
-          props.onLogin(response.data.username)
-        }
-      })
-      .catch(function (error) { /* ignore */
-      });
-    return false
-  }
+
+  const [isUsernameLoading, setUsernameLoading] = useState(LoadingStage.NOT_STARTED);
 
   const popupState = usePopupState({variant: 'popover', popupId: 'demoMenu'})
 
@@ -134,11 +124,27 @@ const AuthenticationMenu = (props: AuthenticationMenuProps) => {
   }
 
   let menuContent: ReactNode
-  if (isAuthenticated()) {
+  if (props.currentUser instanceof AuthenticatedUser) {
     menuContent = <LogoutMenuItem key="logoutItem" />
   } else {
     menuContent = [<LoginMenuItem key="loginItem"/>, <RegisterMenuItem key="registerItem" />]
   }
+
+  useEffect(() => {
+    if (isUsernameLoading === LoadingStage.NOT_STARTED) {
+      setUsernameLoading(LoadingStage.LOADING)
+      apiAxiosInstance.get("/get_username")
+        .then(function (response) {
+          setUsernameLoading(LoadingStage.SUCCESS)
+          if (response.status === 200 && response.data.username !== undefined) {
+            props.onLogin(response.data.username)
+          }
+        })
+        .catch(function (error) { /* ignore */
+          setUsernameLoading(LoadingStage.ERROR)
+        });
+    }
+  }, [isUsernameLoading, props]);
 
   return (
     <div className="authenticationMenu">
