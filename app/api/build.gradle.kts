@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("org.springframework.boot") version "2.4.0"
+  id("org.springframework.boot") version "2.4.1"
   id("io.spring.dependency-management") version "1.0.10.RELEASE"
-  id("org.asciidoctor.convert") version "1.5.8"
-  kotlin("jvm") version "1.4.10"
-  kotlin("plugin.spring") version "1.4.10"
-  kotlin("plugin.jpa") version "1.4.10"
-  kotlin("plugin.allopen") version "1.4.10"
+  id("org.asciidoctor.convert") version "2.4.0"
+  kotlin("jvm") version "1.4.21"
+  kotlin("plugin.spring") version "1.4.21"
+  kotlin("plugin.jpa") version "1.4.21"
+  kotlin("plugin.allopen") version "1.4.21"
 }
 
 group = "ru.mervap"
@@ -25,7 +25,7 @@ repositories {
 }
 
 extra["snippetsDir"] = file("build/generated-snippets")
-extra["testcontainersVersion"] = "1.15.0"
+extra["testcontainersVersion"] = "1.15.1"
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
