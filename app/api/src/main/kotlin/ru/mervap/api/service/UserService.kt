@@ -23,13 +23,6 @@ class UserService(
     return userRepository.findByUsername(username) ?: throw UsernameNotFoundException("User not found")
   }
 
-  @Throws(UsernameNotFoundException::class)
-  fun findUserById(userId: Long): User {
-    return userRepository.findById(userId).orElseGet {
-      throw UsernameNotFoundException("User not found")
-    }
-  }
-
   fun saveUser(user: User): Boolean {
     val userFromDB = userRepository.findByUsername(user.username)
     if (userFromDB != null) {
@@ -42,13 +35,5 @@ class UserService(
     user.password = bCryptPasswordEncoder.encode(user.password)
     userRepository.save(user)
     return true
-  }
-
-  fun deleteUser(userId: Long): Boolean {
-    if (userRepository.findById(userId).isPresent) {
-      userRepository.deleteById(userId)
-      return true
-    }
-    return false
   }
 }

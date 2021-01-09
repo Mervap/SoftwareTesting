@@ -34,10 +34,10 @@ class RegistrationController(private val userService: UserService) {
     when {
       bindingResult.hasErrors() -> return ""
       userInfo.password != userInfo.passwordConfirm -> {
-        model.addAttribute("passwordError", "Пароли не совпадают")
+        model.addAttribute("passwordError", "Password doesn't match")
       }
       !userService.saveUser(User(-1, userInfo.username, userInfo.password, emptySet())) -> {
-        model.addAttribute("usernameError", "Пользователь с таким именем уже существует")
+        model.addAttribute("usernameError", "User with such username already exists")
       }
     }
     return ""
