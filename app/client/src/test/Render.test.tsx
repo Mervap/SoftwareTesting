@@ -1,17 +1,18 @@
 import React from 'react';
-import {render} from 'enzyme'
+import {mount, ReactWrapper, render} from 'enzyme'
 import App from '../app/App';
+import {AuthenticatedUser, GuestUser} from "../app/utils/CurrentUser";
 
 it("Game grid render", () => {
-  let mainApp = render(<App/>)
+  let mainApp = mount(<App/>)
   let gridElement = mainApp.find(".game")
   expect(gridElement.length).toEqual(1)
 })
 
 describe("Sidebar render", () => {
 
-  let mainApp: cheerio.Cheerio
-  beforeEach(() => mainApp = render(<App/>))
+  let mainApp: ReactWrapper<App["props"], App["state"], App>
+  beforeEach(() => mainApp = mount(<App/>))
 
   it("Sidebar", () => {
     let sidebar = mainApp.find(".pro-sidebar")
@@ -24,8 +25,13 @@ describe("Sidebar render", () => {
   })
 
   it("Sidebar button", () => {
-    let sidebarButton = mainApp.find(".pro-menu-item")
-    expect(sidebarButton.length).toEqual(3)
+    expect(mainApp.find(".pro-menu-item").length).toEqual(2)
+
+    mainApp.setState({currentUser: new GuestUser()})
+    expect(mainApp.find(".pro-menu-item").length).toEqual(2)
+
+    mainApp.setState({currentUser: new AuthenticatedUser("Me")})
+    expect(mainApp.find(".pro-menu-item").length).toEqual(3)
   })
 
   it("Sidebar footer", () => {
