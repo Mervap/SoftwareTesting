@@ -1,23 +1,24 @@
 import React from 'react';
 import {mount, ReactWrapper} from 'enzyme'
 import GameControl from "../../app/game/GameControl";
+import {findButton} from "../SelectorHelpers";
 
 describe("GameControl", () => {
 
   it("Click on plus button near delay", () => runActionTest(baseProps, (settings) => {
-    settings.find(".delayControl .updateButton").at(1).simulate('click');
+    findButton(settings, ".delayControl .updateButton").at(1).simulate('click');
   }, (settingsState) => {
     expect(settingsState.delay).toEqual(200)
   }))
 
   it("Click on minus button near delay", () => runActionTest(baseProps, (settings) => {
-    settings.find(".delayControl .updateButton").at(0).simulate('click');
+    findButton(settings, ".delayControl .updateButton").at(0).simulate('click');
   }, (settingsState) => {
-    expect(settingsState.delay).toEqual(1)
+    expect(settingsState.delay).toEqual(100)
   }))
 
   it("Click on plus button near min alive count", () => runActionTest(baseProps, (settings) => {
-    const button = settings.find(".minAliveControl .updateButton").at(1)
+    const button = findButton(settings, ".minAliveControl .updateButton").at(1);
     for (let i = 0; i < 10; ++i) {
       button.simulate('click');
     }
@@ -26,7 +27,7 @@ describe("GameControl", () => {
   }))
 
   it("Click on minus button near min alive count", () => runActionTest(baseProps, (settings) => {
-    const button = settings.find(".minAliveControl .updateButton").at(0)
+    const button = findButton(settings, ".minAliveControl .updateButton").at(0);
     for (let i = 0; i < 10; ++i) {
       button.simulate('click');
     }
@@ -35,7 +36,7 @@ describe("GameControl", () => {
   }))
 
   it("Click on plus button near max alive count", () => runActionTest(baseProps, (settings) => {
-    const button = settings.find(".maxAliveControl .updateButton").at(1)
+    const button = findButton(settings, ".maxAliveControl .updateButton").at(1);
     for (let i = 0; i < 10; ++i) {
       button.simulate('click');
     }
@@ -44,7 +45,7 @@ describe("GameControl", () => {
   }))
 
   it("Click on minus button near max alive count", () => runActionTest(baseProps, (settings) => {
-    const button = settings.find(".maxAliveControl .updateButton").at(0)
+    const button = findButton(settings, ".maxAliveControl .updateButton").at(0);
     for (let i = 0; i < 10; ++i) {
       button.simulate('click');
     }

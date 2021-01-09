@@ -1,12 +1,13 @@
 import React from 'react';
 import {mount, ReactWrapper} from 'enzyme'
 import Settings from "../../app/game/Settings";
+import {changeInput, findButton, findInput} from "../SelectorHelpers";
 
 describe("Settings", () => {
 
   it("Change columns cnt", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#columnsCnt").simulate('change', {target: {value: "20"}});
+      changeInput(settings, "#columnsCnt", "20")
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual("")
       expect(isApplyButtonDisabled).toBeFalsy()
@@ -16,7 +17,7 @@ describe("Settings", () => {
 
   it("Change row cnt", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#rowsCnt").simulate('change', {target: {value: "10"}});
+      changeInput(settings, "#rowsCnt", "10")
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual("")
       expect(isApplyButtonDisabled).toBeFalsy()
@@ -26,7 +27,7 @@ describe("Settings", () => {
 
   it("Change seed", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#seed").simulate('change', {target: {value: "10000"}});
+      changeInput(settings, "#seed", "10000")
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual("")
       expect(isApplyButtonDisabled).toBeFalsy()
@@ -36,10 +37,10 @@ describe("Settings", () => {
 
   it("Change and apply", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#columnsCnt").simulate('change', {target: {value: "50"}});
-      settings.find("#rowsCnt").simulate('change', {target: {value: "15"}});
-      settings.find("#seed").simulate('change', {target: {value: "12345"}});
-      settings.find(".settingsButton").simulate('click')
+      changeInput(settings, "#columnsCnt", "50")
+      changeInput(settings, "#rowsCnt", "15")
+      changeInput(settings, "#seed", "12345")
+      findButton(settings, ".settingsButton").simulate('click')
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual("")
       expect(isApplyButtonDisabled).toBeFalsy()
@@ -53,7 +54,7 @@ describe("Settings", () => {
 
   it("Too big value", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#rowsCnt").simulate('change', {target: {value: "40"}});
+      changeInput(settings, "#rowsCnt", "40")
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual(badRowValueError)
       expect(isApplyButtonDisabled).toBeTruthy()
@@ -63,7 +64,7 @@ describe("Settings", () => {
 
   it("Too small value", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#rowsCnt").simulate('change', {target: {value: "0"}});
+      changeInput(settings, "#rowsCnt", "0")
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual(badRowValueError)
       expect(isApplyButtonDisabled).toBeTruthy()
@@ -73,7 +74,7 @@ describe("Settings", () => {
 
   it("Not a number", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#rowsCnt").simulate('change', {target: {value: "hehm"}});
+      changeInput(settings, "#rowsCnt", "hehm")
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual(badRowValueError)
       expect(isApplyButtonDisabled).toBeTruthy()
@@ -83,7 +84,7 @@ describe("Settings", () => {
 
   it("Float number", () => runActionTest(baseProps,
     (settings) => {
-      settings.find("#rowsCnt").simulate('change', {target: {value: "1.2"}});
+      changeInput(settings, "#rowsCnt", "1.2")
     }, (errorMessage, isApplyButtonDisabled, settingsState, fieldValue) => {
       expect(errorMessage).toEqual(badRowValueError)
       expect(isApplyButtonDisabled).toBeTruthy()
@@ -97,7 +98,7 @@ describe("Settings", () => {
     seed: number
   }
 
-  const badRowValueError = "Row numbers should be a integer number no less than 1 and not greater than 30"
+  const badRowValueError = "Row numbers should be a integer number no less than 1 and not greater than 20"
   const baseProps: SettingsProps = {columns: 40, rows: 20, seed: 0}
 
   function runActionTest(initValue: SettingsProps,
@@ -114,11 +115,11 @@ describe("Settings", () => {
                                      }}/>)
     action(settings)
     settings.update()
-    const errMsg = settings.find(".error").text()
-    const disabled = settings.find(".settingsButton").props().disabled as boolean
-    const columnsFieldValue = Number(settings.find("#columnsCnt").props().value)
-    const rowsFieldValue = Number(settings.find("#rowsCnt").props().value)
-    const seedFieldValue = Number(settings.find("#seed").props().value)
+    const errMsg = settings.find(".Mui-error").filter("p").map(el => el.text()).join()
+    const disabled = findButton(settings, ".settingsButton").props().disabled as boolean
+    const columnsFieldValue = Number(findInput(settings, "#columnsCnt").props().value)
+    const rowsFieldValue = Number(findInput(settings, "#rowsCnt").props().value)
+    const seedFieldValue = Number(findInput(settings, "#seed").props().value)
     afterAction(errMsg, disabled, {columns, rows, seed}, {
       columns: columnsFieldValue,
       rows: rowsFieldValue,
