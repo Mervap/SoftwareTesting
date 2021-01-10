@@ -6,7 +6,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @Table(name = "user_roles")
-class Role(
+data class Role(
   @Id
   var id: Long,
   @Size(min = 2, max = 90)

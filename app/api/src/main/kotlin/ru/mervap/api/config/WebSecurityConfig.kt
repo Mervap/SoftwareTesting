@@ -1,25 +1,18 @@
 package ru.mervap.api.config
 
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import ru.mervap.api.service.UserService
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.core.AuthenticationException
-import org.springframework.security.web.AuthenticationEntryPoint
-import java.lang.Exception
-
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import javax.servlet.http.HttpServletRequest
+import ru.mervap.api.service.UserService
 import javax.servlet.http.HttpServletResponse
-
 
 @Configuration
 @EnableWebSecurity
@@ -41,23 +34,30 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
       .and()
       .authorizeRequests()
       // Only for non-authorized
-      .antMatchers("/registration").not().fullyAuthenticated()
+      .antMatchers("/login", "/registration").not().fullyAuthenticated()
       // Only for authorized
-      .antMatchers("/get_username", "/save_field", "/get_saved_fields").hasRole("USER")
+      .antMatchers("/logout", "/get_username", "/save_field", "/get_saved_fields").hasRole("USER")
       // Other for all
       .anyRequest().permitAll()
       .and()
       .formLogin()
       .loginPage("/login")
       .defaultSuccessUrl("/")
-      .permitAll()
       .successHandler { _, response, _ -> response.status = 200 }
-      .failureHandler { _, response, _ -> response.sendError(400) }
+      .failureHandler { _, response, _ -> response.sendError(403) }
       .and()
       .logout()
-      .logoutSuccessHandler { _, response, _ -> response.status = 200 }
-      .permitAll()
-      .logoutSuccessUrl("/")
+      .logoutSuccessHandler { _, response, authentication ->
+        if (authentication != null) response.status = 200
+        else response.status = 401
+      }
+      .and()
+      .exceptionHandling().authenticationEntryPoint { _, response, authException ->
+        if (authException != null) {
+          response.status = HttpServletResponse.SC_UNAUTHORIZED
+          response.writer.print("Unauthorized")
+        }
+      }
   }
 
   private val corsConfigurationSource: CorsConfigurationSource

@@ -7,7 +7,6 @@ import ru.mervap.api.repository.StorageRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import java.util.*
 
 data class FieldInfo(
   var columns: Int,
@@ -23,10 +22,9 @@ class StorageService(
 ) {
   fun loadSavedFieldsByUser(user: User): List<SavedField> = storageRepository.findByUserOrderBySaveDateDesc(user)
 
-  fun saveField(user: User, fieldInfo: FieldInfo): Boolean {
+  fun saveField(user: User, fieldInfo: FieldInfo) {
     val (columns, rows, aliveArray, iteration) = fieldInfo
     val nowDate = LocalDateTime.now(ZoneId.ofOffset("UTC", ZoneOffset.ofHours(3)))
     storageRepository.save(SavedField(-1L, user, columns, rows, aliveArray.toByteArray(), iteration, nowDate))
-    return true
   }
 }

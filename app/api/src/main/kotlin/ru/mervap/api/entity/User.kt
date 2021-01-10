@@ -13,7 +13,7 @@ import javax.validation.constraints.Size
     Index(name = "username_id_index", columnList = "username,id", unique = true)
   ]
 )
-class User(
+data class User(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long,

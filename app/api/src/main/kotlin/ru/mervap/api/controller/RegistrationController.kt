@@ -1,17 +1,17 @@
 package ru.mervap.api.controller
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
-
 import org.springframework.validation.BindingResult
-
-import javax.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
-import ru.mervap.api.service.UserService
 import ru.mervap.api.entity.User
+import ru.mervap.api.service.UserService
+import java.util.logging.Level
+import java.util.logging.Logger
+import javax.validation.Valid
 import javax.validation.constraints.Size
 
 data class UserInfo(
@@ -28,18 +28,23 @@ class RegistrationController(private val userService: UserService) {
 
   @ResponseBody
   @PostMapping("/registration")
-  fun addUser(@RequestBody userInfo: @Valid UserInfo,
-              bindingResult: BindingResult,
-              model: Model): String {
-    when {
-      bindingResult.hasErrors() -> return ""
+  fun addUser(@RequestBody userInfo: @Valid UserInfo, bindingResult: BindingResult): ResponseEntity<String> {
+    return when {
+      bindingResult.hasErrors() -> ResponseEntity("Invalid user info", HttpStatus.BAD_REQUEST)
       userInfo.password != userInfo.passwordConfirm -> {
-        model.addAttribute("passwordError", "Password doesn't match")
+        ResponseEntity("Password doesn't match", HttpStatus.BAD_REQUEST)
       }
-      !userService.saveUser(User(-1, userInfo.username, userInfo.password, emptySet())) -> {
-        model.addAttribute("usernameError", "User with such username already exists")
-      }
+      else ->
+        try {
+          if (!userService.saveUser(User(-1, userInfo.username, userInfo.password, emptySet()))) {
+            ResponseEntity("User with such username already exists", HttpStatus.BAD_REQUEST)
+          }
+          else ResponseEntity(HttpStatus.OK)
+        }
+        catch (e: RuntimeException) {
+          Logger.getGlobal().log(Level.SEVERE, e.toString())
+          ResponseEntity("Exception during registration", HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
-    return ""
   }
 }

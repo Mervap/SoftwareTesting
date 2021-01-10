@@ -1,6 +1,8 @@
 package ru.mervap.api.controller
 
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,9 +13,11 @@ import ru.mervap.api.entity.User
 import ru.mervap.api.service.FieldInfo
 import ru.mervap.api.service.StorageService
 import java.time.format.DateTimeFormatter
+import java.util.logging.Level
+import java.util.logging.Logger
 
 @Controller
-class AutowiredController(private val storageService: StorageService) {
+class AuthenticatedController(private val storageService: StorageService) {
 
   @ResponseBody
   @GetMapping("/get_username", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -23,12 +27,18 @@ class AutowiredController(private val storageService: StorageService) {
 
   @ResponseBody
   @PostMapping("/save_field", produces = [MediaType.APPLICATION_JSON_VALUE])
-  fun getSaveField(
+  fun saveField(
     @AuthenticationPrincipal user: User,
     @RequestBody fieldInfo: FieldInfo
-  ): String {
-    storageService.saveField(user, fieldInfo)
-    return ""
+  ): ResponseEntity<String> {
+    return try {
+      storageService.saveField(user, fieldInfo)
+      ResponseEntity(HttpStatus.OK)
+    }
+    catch (e: RuntimeException) {
+      Logger.getGlobal().log(Level.SEVERE, e.toString())
+      ResponseEntity("Exception during saving field", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   @ResponseBody

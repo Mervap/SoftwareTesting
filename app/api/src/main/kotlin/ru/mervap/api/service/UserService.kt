@@ -25,9 +25,8 @@ class UserService(
 
   fun saveUser(user: User): Boolean {
     val userFromDB = userRepository.findByUsername(user.username)
-    if (userFromDB != null) {
-      return false
-    }
+    if (userFromDB != null) return false
+
     if (!roleRepository.existsById(1L)) {
       roleRepository.save(Role(1L, "ROLE_USER"))
     }
