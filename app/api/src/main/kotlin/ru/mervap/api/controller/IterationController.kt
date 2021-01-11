@@ -2,10 +2,9 @@ package ru.mervap.api.controller
 
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
-
-import org.springframework.web.bind.annotation.*
-
-import ru.mervap.api.service.UserService
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.ResponseBody
 import java.util.*
 
 data class GameInfo(val aliveArray: String,

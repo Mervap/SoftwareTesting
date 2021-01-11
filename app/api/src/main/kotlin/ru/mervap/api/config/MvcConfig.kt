@@ -1,12 +1,9 @@
 package ru.mervap.api.config
 
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
-
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import java.lang.Exception
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
 @Configuration
