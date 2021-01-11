@@ -7,11 +7,6 @@
 ### Process
 #### Frontend :heavy_check_mark:
 Есть беды со стилями и верифаерами, нет одной странички, не все протестировано, но в целом жить можно
-#### Backend :construction:
-#### Database :construction:
-
-### Hw1 :construction: 
-* Unit tests :heavy_check_mark:
-* Component tests (render tests) :heavy_check_mark:
-* E2E tests :construction: 
+#### Backend :heavy_check_mark:
+#### Database :heavy_check_mark:
 
