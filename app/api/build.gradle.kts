@@ -66,6 +66,14 @@ tasks.withType<Test> {
   useJUnitPlatform()
 }
 
+tasks.register("buildClient") {
+  exec { commandLine("sh", "-c", "cd ../client && npm run build") }
+}
+
+tasks.withType<Copy>().named("processResources") {
+  from("../client/build")
+}
+
 allOpen {
   annotation("javax.persistence.Entity")
   annotation("javax.persistence.Embeddable")
