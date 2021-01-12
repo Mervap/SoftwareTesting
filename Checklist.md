@@ -55,10 +55,10 @@
 
 ### CI/CD
 #### Main:
-:construction: GitHub Action для запуска тестов на по пушу в master
+:heavy_check_mark: GitHub Action для запуска тестов по пушу в master (UI + BE + E2E)
 
 #### Advanced:
-:construction: GitHub Action для деплоя AWS
+:heavy_check_mark: GitHub Action для деплоя AWS (EC2, не RDS, дорого)
 
 #### Bonus :x:
 
