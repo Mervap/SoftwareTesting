@@ -70,7 +70,7 @@
 
 ### A11Y
 #### Bonus:
-:heavy_check_mark: Сайт протестировать на а11y с помощью Lighthouse\
+:heavy_check_mark: Сайт протестирован на а11y с помощью Lighthouse\
 :heavy_check_mark: Пофикшены проблемы (не связанные с либами)\
 :x: Автоматический тест с axe
 
