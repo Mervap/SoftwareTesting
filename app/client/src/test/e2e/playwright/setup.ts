@@ -5,8 +5,8 @@ module.exports = async () => {
   await setupDevServer({
     command: `cd ../api && ./gradlew bootRun`,
     port: 8080,
-    launchTimeout: 15000,
-    // debug: true
+    launchTimeout: 30000,
+    debug: true
   })
 
   const browser = await chromium.launch();
