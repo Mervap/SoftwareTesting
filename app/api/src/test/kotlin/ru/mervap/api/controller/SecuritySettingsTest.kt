@@ -1,5 +1,6 @@
 package ru.mervap.api.controller
 
+import org.junit.ClassRule
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -8,11 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.postForEntity
+import org.springframework.context.ApplicationContextInitializer
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.http.*
 import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.test.context.ContextConfiguration
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 import ru.mervap.api.entity.Role
 import ru.mervap.api.entity.User
 import ru.mervap.api.getUserInfo
@@ -21,7 +29,28 @@ import ru.mervap.api.service.FieldInfo
 import ru.mervap.api.service.UserService
 import ru.mervap.api.toBase64
 
+@ClassRule
+@Container
+private val postgreSQLContainer: PostgreSQLContainer<*> =
+  PostgreSQLContainer<PostgreSQLContainer<*>>("postgres:latest")
+    .withDatabaseName("tests-db")
+    .withUsername("root")
+    .withPassword("root_pass")
+
+private class SecuritySettingsTestInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+  override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
+    postgreSQLContainer.start()
+    TestPropertyValues.of(
+      "spring.datasource.url=" + postgreSQLContainer.jdbcUrl,
+      "spring.datasource.username=" + postgreSQLContainer.username,
+      "spring.datasource.password=" + postgreSQLContainer.password
+    ).applyTo(configurableApplicationContext.environment)
+  }
+}
+
+@Testcontainers
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ContextConfiguration(initializers = [SecuritySettingsTestInitializer::class])
 class SecuritySettingsTest {
 
   @MockBean private lateinit var authenticatedController: AuthenticatedController
