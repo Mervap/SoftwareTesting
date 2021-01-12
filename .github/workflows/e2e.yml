@@ -40,10 +40,11 @@ jobs:
         working-directory: app/api
         run: ./gradlew build -x test
       - name: Apply db patch
-        working-directory: app/api
-        run: git apply test/resources/E2E_tests_db.patch
+        working-directory: app/api/src/test/resources
+        run: git apply E2E_tests_db.patch
       - name: Init db data
-        run: psql -h localhost -p 5432 -U e2e-user -f test/resources/init_test_data.sql
+        working-directory: app/api/src/test/resources
+        run: psql -h localhost -p 5432 -U e2e-user -f init_test_data.sql
       - name: Cypress tests
         working-directory: app
         run: |
