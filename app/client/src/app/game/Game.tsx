@@ -102,7 +102,6 @@ class Game extends Component<GameProps> {
     } else {
       clearInterval(this.state.timerId)
     }
-    // console.log(String(delay) + " " + String(cntForBirth) + " " + String(minForAlive) + " " + String(maxForAlive) + " " + String(isRun))
   }
 
   saveField = () => {

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import ru.mervap.api.entity.Role
 import ru.mervap.api.entity.User
 import ru.mervap.api.getUserInfo
+import ru.mervap.api.safeEq
 import ru.mervap.api.service.FieldInfo
 import ru.mervap.api.service.UserService
 import ru.mervap.api.toBase64
@@ -50,12 +51,6 @@ class SecuritySettingsTest {
   fun registration() = doPermitAnonymousOnlyTest("/registration", HttpMethod.POST, testUser.getUserInfo())
 
   @Test
-  fun login() = doPermitAnonymousOnlyTest(
-    "/login?username=${testUser.username}&password=${testUser.password}",
-    HttpMethod.GET, ""
-  )
-
-  @Test
   fun nextIteration() {
     val path = "/next_iteration"
     val method = HttpMethod.POST
@@ -80,6 +75,8 @@ class SecuritySettingsTest {
     body: BodyType,
     check: (ResponseEntity<String>) -> Unit
   ) {
+    given(userService.loadUserByUsername(safeEq(anotherUser.username))).willReturn(anotherUser)
+//    given(userService.loadUserByUsername(anyString())).willThrow(UsernameNotFoundException("User not found"))
     val response = template.exchange(path, method, HttpEntity(body, null), String::class.java)
     check(response)
   }
@@ -90,7 +87,7 @@ class SecuritySettingsTest {
     body: BodyType,
     check: (ResponseEntity<String>) -> Unit
   ) {
-    given(userService.loadUserByUsername(testUser.username)).willReturn(testUser)
+    given(userService.loadUserByUsername(safeEq(testUser.username))).willReturn(testUser)
     val loginResponse = template.postForEntity<String>("/login?username=${testUser.username}&password=12345678", null)
     assertEquals(HttpStatus.OK, loginResponse.statusCode)
     val cookie = loginResponse.headers["Set-Cookie"]?.get(0) ?: throw RuntimeException("No cookies after login")
@@ -103,6 +100,12 @@ class SecuritySettingsTest {
 
   private val testUser = User(
     1, "TestUser",
+    bCryptPasswordEncoder.encode("12345678"),
+    setOf(Role(1, "ROLE_USER"))
+  )
+
+  private val anotherUser = User(
+    2, "AnotherUser",
     bCryptPasswordEncoder.encode("12345678"),
     setOf(Role(1, "ROLE_USER"))
   )

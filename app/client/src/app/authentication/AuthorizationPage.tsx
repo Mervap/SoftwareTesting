@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, TextField} from '@material-ui/core';
 import {Redirect} from 'react-router'
 import {apiAxiosInstance} from "../utils/apiUtils";
+import Alert from '@material-ui/lab/Alert';
 
 import "../styles/Authorization.css"
 import {AuthenticatedUser, CurrentUser} from "../utils/CurrentUser";
@@ -18,7 +19,8 @@ class AuthorizationPage extends Component<AuthorizationPageProps> {
   state = {
     username: "",
     password: "",
-    passwordConfirm: ""
+    passwordConfirm: "",
+    errorText: ""
   }
 
   private handleClick = () => {
@@ -26,25 +28,33 @@ class AuthorizationPage extends Component<AuthorizationPageProps> {
     const username = this.state.username
     let post: Promise<AxiosResponse>
     if (this.props.isRegistration) {
-      post = apiAxiosInstance.post('/registration', this.state)
+      const user = {
+        username: username,
+        password: this.state.password,
+        passwordConfirm: this.state.passwordConfirm,
+      }
+      post = apiAxiosInstance.post('/registration', user)
     }
     else {
       post = apiAxiosInstance.post('/login?username=' + username + "&password=" + this.state.password)
     }
+    const onError = (response: any) => {
+      const data = response !== undefined ? response.data : undefined
+      const message = data !== undefined ? data.message : undefined
+      const errorText = message !== undefined && message.length > 0 ? message : "Unexpected server error"
+      console.error(data, message, errorText);
+      self.setState({ errorText: errorText })
+    }
     post.then(function (response) {
         if (response.status === 200) {
+          self.setState({ errorText: "" })
           self.props.onAuthorization(username)
         } else {
-          console.error(response);
-          alert("Unexpected Error")
+          onError(response)
         }
       })
       .catch(function (error) {
-        if (error.response !== undefined && error.response.data.status === 401) {
-          alert("Check credentials")
-        } else {
-          console.error(error);
-        }
+        onError(error.response)
       });
   }
 
@@ -55,6 +65,11 @@ class AuthorizationPage extends Component<AuthorizationPageProps> {
     return (
       <div className="authorization_page">
         <div>
+          {this.state.errorText.length > 0 &&
+          <Alert severity="error">
+            {this.state.errorText}
+          </Alert>}
+          {/*<br/>*/}
           <TextField
             label="Username"
             style={{

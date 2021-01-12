@@ -3,6 +3,7 @@ package ru.mervap.api.config
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -18,11 +19,8 @@ import javax.servlet.http.HttpServletResponse
 @EnableWebSecurity
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
-  @Autowired
-  lateinit var userService: UserService
-
-  @Bean
-  fun bCryptPasswordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
+  @Autowired lateinit var userService: UserService
+  @Bean fun bCryptPasswordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
 
   @Throws(Exception::class)
   override fun configure(httpSecurity: HttpSecurity) {
@@ -34,7 +32,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
       .and()
       .authorizeRequests()
       // Only for non-authorized
-      .antMatchers("/login", "/registration").not().fullyAuthenticated()
+      .antMatchers(HttpMethod.POST, "/registration").not().fullyAuthenticated()
       // Only for authorized
       .antMatchers("/logout", "/get_username", "/save_field", "/get_saved_fields").hasRole("USER")
       // Other for all
@@ -44,12 +42,18 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
       .loginPage("/login")
       .defaultSuccessUrl("/")
       .successHandler { _, response, _ -> response.status = 200 }
-      .failureHandler { _, response, _ -> response.sendError(403) }
+      .failureHandler { _, response, _ ->
+        response.status = 400
+        response.outputStream.println("{\"message\": \"Bad credentials\"}")
+      }
       .and()
       .logout()
       .logoutSuccessHandler { _, response, authentication ->
         if (authentication != null) response.status = 200
-        else response.status = 401
+        else {
+          response.status = 401
+          response.outputStream.println("{\"message\": \"Not authenticated\"}")
+        }
       }
       .and()
       .exceptionHandling().authenticationEntryPoint { _, response, authException ->

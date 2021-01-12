@@ -1,0 +1,5 @@
+{
+  "integrationFolder": "src/test/e2e/cypress/tests",
+  "supportFile": "src/test/e2e/cypress/support/index.ts",
+  "baseUrl": "http://localhost:8080"
+}
