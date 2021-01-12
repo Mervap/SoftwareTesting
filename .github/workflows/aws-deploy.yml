@@ -1,0 +1,32 @@
+name: Deploy on aws EC2
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'app/**'
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/api
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+      - name: Copy ssh key
+        env:
+          aws.key: ${{ secrets.AWS_KEY }}
+        run: echo $aws.key > aws.pem
+      - name: Deploy
+        env:
+          aws.host: ${{ secrets.EC2_HOST }}
+          rds.host: ${{ secrets.RDS_HOST }}
+          rds.user: ${{ secrets.RDS_USER }}
+          rds.pass: ${{ secrets.RDS_PASS }}
+        run: ./gradlew awsDeploy
