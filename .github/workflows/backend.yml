@@ -1,0 +1,25 @@
+name: Backend tests
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'app/api/**'
+  workflow_dispatch:
+
+jobs:
+  Tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/api
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+      - name: Build
+        run: ./gradlew build
+      - name: Test
+        run: ./gradlew test --tests *
