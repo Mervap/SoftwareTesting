@@ -57,6 +57,7 @@ jobs:
         with:
           name: cypress_artifacts
           path: app/client/cypress/**
+      - uses: microsoft/playwright-github-action@v1
       - name: Playwright tests
         working-directory: app/client
         run: npm run test:playwright_e2e
