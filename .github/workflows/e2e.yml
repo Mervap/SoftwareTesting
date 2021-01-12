@@ -40,8 +40,8 @@ jobs:
         working-directory: app/api
         run: ./gradlew build -x test
       - name: Apply db patch
-        working-directory: app/api/src/test/resources
-        run: git apply E2E_tests_db.patch
+        working-directory: app/api
+        run: git apply src/test/resources/E2E_tests_db.patch
       - name: Init db data
         working-directory: app/api
         run: |
