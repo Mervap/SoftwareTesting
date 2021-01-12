@@ -154,7 +154,7 @@ class Game extends Component<GameProps> {
             {this.state.saveAlertText}
           </Alert>
         </Snackbar>
-        <Button className="submit_button"
+        <Button className="save_button"
                 style={{margin: "15px"}}
                 variant="contained"
                 color="primary"
