@@ -76,14 +76,14 @@ tasks.withType<Copy>().named("processResources") {
 }
 
 task("awsDeploy") {
-  dependsOn("buildClient")
-  dependsOn("processResources")
-  dependsOn("bootJar")
+//  dependsOn("buildClient")
+//  dependsOn("processResources")
+//  dependsOn("bootJar")
 
-  val awsHost = System.getenv("aws.host")
-  val dbHost = System.getenv("rds.host")
-  val dbUser = System.getenv("rds.user")
-  val dbPassword = System.getenv("rds.pass")
+  val awsHost = System.getenv("aws_host")
+  val dbHost = System.getenv("rds_host")
+  val dbUser = System.getenv("rds_user")
+  val dbPassword = System.getenv("rds_pass")
 
   val awsRemote = remotes.create("awsRemote") {
     host = awsHost

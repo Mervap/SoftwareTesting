@@ -33,12 +33,15 @@ jobs:
         run: npm install
       - name: Copy ssh key
         env:
-          aws.key: ${{ secrets.AWS_KEY }}
-        run: echo $aws.key > aws.pem
+          aws_key: ${{ secrets.AWS_KEY }}
+        run: echo $aws_key > aws.pem
       - name: Deploy
         env:
-          aws.host: ${{ secrets.EC2_HOST }}
-          rds.host: ${{ secrets.RDS_HOST }}
-          rds.user: ${{ secrets.RDS_USER }}
-          rds.pass: ${{ secrets.RDS_PASS }}
-        run: ./gradlew awsDeploy
+          aws_host: ${{ secrets.EC2_HOST }}
+          rds_host: ${{ secrets.RDS_HOST }}
+          rds_user: ${{ secrets.RDS_USER }}
+          rds_pass: ${{ secrets.RDS_PASS }}
+        run: |
+          cat aws_pem
+          echo $aws_host
+          ./gradlew awsDeploy
