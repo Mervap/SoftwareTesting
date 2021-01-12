@@ -31,17 +31,16 @@ jobs:
       - name: Install client dependencies
         working-directory: app/client
         run: npm install
-      - name: Copy ssh key
-        env:
-          aws_key: ${{ secrets.AWS_KEY }}
-        run: echo $aws_key > aws.pem
+      - name: SSH Setup
+        uses: MrSquaare/ssh-setup-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          private-key: ${{ secrets.AWS_KEY }}
+          private-key-name: aws.pem
       - name: Deploy
         env:
           aws_host: ${{ secrets.EC2_HOST }}
           rds_host: ${{ secrets.RDS_HOST }}
           rds_user: ${{ secrets.RDS_USER }}
           rds_pass: ${{ secrets.RDS_PASS }}
-        run: |
-          cat aws_pem
-          echo $aws_host
-          ./gradlew awsDeploy
+        run: ./gradlew awsDeploy

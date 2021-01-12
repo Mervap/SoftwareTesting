@@ -76,9 +76,9 @@ tasks.withType<Copy>().named("processResources") {
 }
 
 task("awsDeploy") {
-//  dependsOn("buildClient")
-//  dependsOn("processResources")
-//  dependsOn("bootJar")
+  dependsOn("buildClient")
+  dependsOn("processResources")
+  dependsOn("bootJar")
 
   val awsHost = System.getenv("aws_host")
   val dbHost = System.getenv("rds_host")
@@ -89,7 +89,7 @@ task("awsDeploy") {
     host = awsHost
     user = "ubuntu"
     passphrase = ""
-    identity = File("aws.pem")
+    identity = File("${System.getProperty("user.home")}/.ssh/aws.pem")
   }
 
   doLast {
