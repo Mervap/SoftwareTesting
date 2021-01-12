@@ -30,12 +30,6 @@ jobs:
           postgresql db: e2e-test-db
           postgresql user: e2e-user
           postgresql password: e2e-pass
-      - name: Apply db patch
-        working-directory: app/api/src/test/resources
-        run: git apply E2E_tests_db.patch
-      - name: Init db data
-        working-directory: app/api/src/test/resources
-        run: PGPASSWORD=e2e-pass psql -h localhost -p 5432 -U e2e-user -d e2e-test-db -f init_test_data.sql
       - name: Install client dependencies
         working-directory: app/client
         run: npm install
@@ -45,10 +39,18 @@ jobs:
       - name: Build Server
         working-directory: app/api
         run: ./gradlew build -x test
+      - name: Apply db patch
+        working-directory: app/api/src/test/resources
+        run: git apply E2E_tests_db.patch
+      - name: Init db data
+        working-directory: app/api
+        run: |
+          ./gradlew bootRun & sleep 10 && ./gradlew --stop
+          PGPASSWORD=e2e-pass psql -h localhost -p 5432 -U e2e-user -d e2e-test-db -f src/test/resources/init_test_data.sql
       - name: Cypress tests
         working-directory: app
         run: |
-          cd api && ./gradlew bootRun & cd client && npm run test:cypress_e2e
+          cd api && ./gradlew bootRun & sleep 10 && cd client && npm run test:cypress_e2e
           cd api && ./gradlew --stop
       - name: Cypress artifacts
         uses: actions/upload-artifact@v2
