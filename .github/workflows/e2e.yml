@@ -36,10 +36,17 @@ jobs:
       - name: Build client
         working-directory: app/api
         run: ./gradlew buildClient
+      - name: Apply db patch
+        working-directory: app/api
+        run: git apply E2E_tests_db.patch
+      - name: Build Server
+        working-directory: app/api
+        run: ./gradlew build -x test
       - name: Cypress tests
+        working-directory: app
         run: |
-          cd app/api && ./gradlew bootRun & cd ../client && npm run test:cypress_e2e
-          cd ../api && ./gradlew --stop
+          cd api && ./gradlew bootRun & cd client && npm run test:cypress_e2e
+          cd api && ./gradlew --stop
       - name: Cypress artifacts
         uses: actions/upload-artifact@v2
         with:

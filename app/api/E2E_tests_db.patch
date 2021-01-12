@@ -1,0 +1,18 @@
+Index: app/api/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/api/src/main/resources/application.properties b/app/api/src/main/resources/application.properties
+--- a/app/api/src/main/resources/application.properties	(revision 38d2dd5ce032fe99755603f82e405bd4aa2ced7b)
++++ b/app/api/src/main/resources/application.properties	(revision 30c3926fbe68955b20815842a02a0fffa3a0b94f)
+@@ -1,6 +1,6 @@
+-spring.datasource.url=jdbc:postgresql://localhost:5432/softwaretesting
+-spring.datasource.username=
+-spring.datasource.password=
++spring.datasource.url=jdbc:postgresql://localhost:5432/e2e-test-db
++spring.datasource.username=e2e-user
++spring.datasource.password=e2e-pass
+ spring.jpa.show-sql=true
+ spring.jpa.generate-ddl=false
+ spring.jpa.hibernate.ddl-auto=update
