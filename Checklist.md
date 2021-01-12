@@ -13,24 +13,29 @@
 \
 :heavy_check_mark: unit tests\
 :heavy_check_mark: component tests\
-:x: e2e tests
+:heavy_check_mark: e2e tests
 
 #### Advanced:
 :heavy_check_mark: Приложение содержит авторизацию\
-:construction: Тесты для проверки авторизации\
+:heavy_check_mark: Тесты для проверки авторизации\
 :heavy_check_mark: Несколько наборов тестов
 
-#### Bonus :x:
+#### Bonus:
+:heavy_check_mark: [Заметка](https://mervap.github.io/SoftwareTesting/CypressPlaywright.html) о сравнении Cypress и Playwright
 
 ### E2E
 #### Main:
-:construction: Cypress tests\
-:construction: Playwright tests
+:heavy_check_mark: Cypress tests\
+:heavy_check_mark: Playwright tests
 
 #### Advanced:
-:construction: Тесты, не проходящие авторизацию
+:heavy_check_mark: Тесты, не проходящие авторизацию
 
-#### Bonus :x:
+#### Bonus:
+:heavy_check_mark: Есть пара тестов со скриншотами с Playwright\
+:x: Нет видео\
+:x: Нет статьи
+
 
 ### Backend
 #### Main:
