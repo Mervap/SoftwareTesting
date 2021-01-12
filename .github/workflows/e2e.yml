@@ -51,7 +51,7 @@ jobs:
         working-directory: app
         run: |
           cd api && ./gradlew bootRun & sleep 10 && cd client && npm run test:cypress_e2e
-          cd api && ./gradlew --stop
+          cd ../api && ./gradlew --stop
       - name: Cypress artifacts
         uses: actions/upload-artifact@v2
         with:
