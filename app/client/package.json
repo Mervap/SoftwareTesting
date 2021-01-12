@@ -38,10 +38,9 @@
     "test": "npm run test:react && npm run test:playwright_e2e",
     "test:react": "react-scripts test ----testPathPattern=src/test --testPathIgnorePatterns=src/test/e2e --watchAll=false",
     "test:playwright_e2e": "jest -c jest.config.playwright_e2e.js",
-    "test:cypress_e2e": "npm run test:cypress_e2e:chrome && npm run test:cypress_e2e:firefox && npm run test:cypress_e2e:edge",
+    "test:cypress_e2e": "npm run test:cypress_e2e:chrome && npm run test:cypress_e2e:firefox",
     "test:cypress_e2e:chrome": "cypress run -b chrome --headless",
     "test:cypress_e2e:firefox": "cypress run -b firefox --headless",
-    "test:cypress_e2e:edge": "cypress run -b edge --headless",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
