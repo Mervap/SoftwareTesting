@@ -22,4 +22,4 @@ jobs:
       - name: Build
         run: ./gradlew build -x test
       - name: Test
-        run: ./gradlew test --tests *
+        run: ./gradlew test
