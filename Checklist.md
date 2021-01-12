@@ -70,9 +70,9 @@
 
 ### A11Y
 #### Bonus:
-:construction: Протестировать сайт на а11y\
-:construction: Пофиксить проблемы\
-:x: Сделать автоматический тест с axe
+:heavy_check_mark: Сайт протестировать на а11y с помощью Lighthouse\
+:heavy_check_mark: Пофикшены проблемы (не связанные с либами)\
+:x: Автоматический тест с axe
 
 ### Selenium
 #### Main:

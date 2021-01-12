@@ -55,6 +55,7 @@ class FieldWithButtons extends Component<FieldWithButtonsProps> {
                       fontSize: "15px",
                       marginBottom: "5px"
                     }}
+                    aria-label={"Decrease " + this.props.labelText}
                     onClick={() => this.applyDiff(false)}>
           <Remove fontSize="inherit"/>
         </IconButton>
@@ -72,6 +73,7 @@ class FieldWithButtons extends Component<FieldWithButtonsProps> {
         <IconButton disabled={this.props.disabled}
                     className="updateButton"
                     style={{fontSize: "15px"}}
+                    aria-label={"Increase " + this.props.labelText}
                     onClick={() => this.applyDiff(true)}>
           <Add fontSize="inherit"/>
         </IconButton>
@@ -174,6 +176,7 @@ class GameControl extends Component<GameControlProps> {
         />
         <IconButton className="runPauseButton"
                     style={{marginTop: "0.7rem", marginRight: "16rem"}}
+                    aria-label={(this.state.isRun ? "Run" : "Stop") + " game"}
                     onClick={() => this.onRunChange()}>
           {this.state.isRun ? <Pause fontSize="small"/> : <PlayArrow fontSize="small"/>}
         </IconButton>
