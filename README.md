@@ -1,12 +1,39 @@
 ## Software testing
-### Идея :heavy_check_mark:
-[Игра «Жизнь»](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). 
-Можно настраивать всякие параметры генерации, есть страничка помощи, возможность сохранять 
-интересные комбинации, полученные в результате одной из игр.
+[Checklist](Checklist.md)
+[Github pages](https://mervap.github.io/SoftwareTesting/)
 
-### Process
-#### Frontend :heavy_check_mark:
-Есть беды со стилями и верифаерами, нет одной странички, не все протестировано, но в целом жить можно
-#### Backend :heavy_check_mark:
-#### Database :heavy_check_mark:
+### Build
+Run at `app/client`
+```
+npm install
+```
+to install client dependencies\
+\
+Run at `app/client`
+```
+npm build
+```
+Or at `app/api`
+```
+./gradlew buildClient
+```
+to build client app.\
+\
+Run at `app/api`
+```
+./gradlew build -x tests
+```
+to build server
+
+### Run
+At `app/api`
+```
+./gradlew bootRun
+```
+
+### Deploy
+At `app/api`
+```
+./gradlew awsDeploy
+```
 
