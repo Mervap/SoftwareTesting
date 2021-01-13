@@ -1,5 +1,5 @@
 ## Software testing
-[Checklist](Checklist.md)
+[Checklist](Checklist.md)\
 [Github pages](https://mervap.github.io/SoftwareTesting/)
 
 ### Build
